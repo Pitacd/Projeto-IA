@@ -34,5 +34,15 @@ def goToPositionOnBoard(line, column, robot, colorSensor):
             
     robot.stop()
     
-# def putPieceOnTheBoard(robot):
-    
+def putPieceOnTheBoard(robot, rotationMotor):
+    robot.straight(150)
+    wait(200)
+    robot.turn(-90)
+    wait(100)
+    robot.straight(400)
+    rotationMotor.run_angle(100, 90)
+    robot.straight(100)
+    wait(200)
+    robot.turn(-90)
+    wait(100)
+    robot.straight(500) # after change to distance traveled on the board
