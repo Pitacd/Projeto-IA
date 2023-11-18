@@ -25,11 +25,14 @@ colorSensor = ColorSensor(Port.S1)
 ultrasonSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 56, 121) # initial wheelDiameter = 56 and axleTrack = 119
+robot = DriveBase(leftMotor, rightMotor, 56, 130) # initial wheelDiameter = 56 and axleTrack = 119
+robot.settings(150, 130, 150, 200)
 
 # Functions
-
-goToPositionOnBoard(0, 4, robot, colorSensor)
+movementToReadAllPieces(robot, colorSensor)
+goToPositionOnBoard(0, 0, robot, colorSensor)
+putPieceOnTheBoard(robot, rotationMotor)
+print(listPiecesOutside)
 # reverseDistanceToPiece = 100
 
 # rotationMotor.run_angle(100, 90)
