@@ -26,12 +26,14 @@ ultrasonSensor = UltrasonicSensor(Port.S2)
 
 # Robot
 robot = DriveBase(leftMotor, rightMotor, 56, 130) # initial wheelDiameter = 56 and axleTrack = 119
-robot.settings(150, 130, 150, 200)
+robot.settings(150, 100, 150, 200)
 
 # Functions
 movementToReadAllPieces(robot, colorSensor)
-goToPositionOnBoard(0, 0, robot, colorSensor)
-putPieceOnTheBoard(robot, rotationMotor)
+robot.reset()
+goToPositionOnBoard(0, 4, robot, colorSensor)
+distanceToComeBack = robot.distance()
+putPieceOnTheBoard(distanceToComeBack, robot, rotationMotor)
 print(listPiecesOutside)
 # reverseDistanceToPiece = 100
 
