@@ -22,7 +22,7 @@ def goToPositionOnBoard(line, column, robot, colorSensor):
     # variable that stores the number of black lines 
     # that the robot has to pass to place the piece on the board
     numberOfBlackLinesToPutPiece = (line * 5) + (column + 1)
-    # variable that sotres the number of black lines 
+    # variable that indicates the number of black lines 
     # passed by the robot on board
     numberOfBlackLinesPassed = 0
     robot.drive(100, 0)
@@ -34,15 +34,15 @@ def goToPositionOnBoard(line, column, robot, colorSensor):
             
     robot.stop()
     
-def putPieceOnTheBoard(robot, rotationMotor):
+def putPieceOnTheBoard(distanceToComeBack, robot, rotationMotor):
     robot.straight(150)
     wait(200)
     robot.turn(-90)
     wait(100)
     robot.straight(400)
     rotationMotor.run_angle(100, 90)
-    robot.straight(100)
+    robot.straight(150)
     wait(200)
     robot.turn(-90)
     wait(100)
-    robot.straight(500) # after change to distance traveled on the board
+    robot.straight(distanceToComeBack) # after change to distance traveled on the board
