@@ -1,7 +1,7 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, ColorSensor, UltrasonicSensor)
-from pybricks.parameters import Port, Stop, Direction, Color
+from pybricks.parameters import Port, Stop, Direction, Color, Button
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
@@ -29,12 +29,12 @@ robot = DriveBase(leftMotor, rightMotor, 56, 130) # initial wheelDiameter = 56 a
 robot.settings(150, 100, 150, 200)
 
 # Functions
-movementToReadAllPieces(robot, colorSensor)
-robot.reset()
-goToPositionOnBoard(0, 4, robot, colorSensor)
+readAllColorOfPieces(ev3, colorSensor)
+goToPositionOnBoard(1, 3, robot, colorSensor)
 distanceToComeBack = robot.distance()
 putPieceOnTheBoard(distanceToComeBack, robot, rotationMotor)
 print(listPiecesOutside)
+
 # reverseDistanceToPiece = 100
 
 # rotationMotor.run_angle(100, 90)
