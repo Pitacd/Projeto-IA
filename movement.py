@@ -1,19 +1,5 @@
 from pybricks.tools import wait
 from brain import *
-# Variable that defines the distance
-# that the robot has to move to 
-# identify the next piece of the game
-distanceToNextColor = 50 # 5cm
-
-# Function to identify all the pieces
-# initially outside the board 
-def movementToReadAllPieces(robot, colorSensor):
-    stop = False
-    while not stop:
-        if readColorOfPiece(colorSensor):
-            robot.straight(distanceToNextColor)
-        else:
-            stop = True
 
 # Function to make the robot go to the corret position to 
 # put the piece on the board depending on the line and column
@@ -28,12 +14,14 @@ def goToPositionOnBoard(line, column, robot, colorSensor):
     robot.drive(100, 0)
     
     while numberOfBlackLinesPassed < numberOfBlackLinesToPutPiece:
-        wait(100)
+        wait(90)
         if colorSensor.color() == Color.BLACK:
             numberOfBlackLinesPassed += 1
             
     robot.stop()
-    
+
+# function of the movement of the robot right before 
+# arrived on the position to put the piece on the board 
 def putPieceOnTheBoard(distanceToComeBack, robot, rotationMotor):
     robot.straight(150)
     wait(200)
@@ -45,4 +33,4 @@ def putPieceOnTheBoard(distanceToComeBack, robot, rotationMotor):
     wait(200)
     robot.turn(-90)
     wait(100)
-    robot.straight(distanceToComeBack) # after change to distance traveled on the board
+    robot.straight(distanceToComeBack) 
