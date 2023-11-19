@@ -26,36 +26,18 @@ ultrasonSensor = UltrasonicSensor(Port.S2)
 
 # Robot
 robot = DriveBase(leftMotor, rightMotor, 56, 130) # initial wheelDiameter = 56 and axleTrack = 119
-robot.settings(150, 100, 150, 200)
+robot.settings(150, 100, 150, 100)
 
 # Functions
 readAllColorOfPieces(ev3, colorSensor)
-goToPositionOnBoard(1, 3, robot, colorSensor)
-distanceToComeBack = robot.distance()
-putPieceOnTheBoard(distanceToComeBack, robot, rotationMotor)
-print(listPiecesOutside)
-
-# reverseDistanceToPiece = 100
-
-# rotationMotor.run_angle(100, 90)
-# movementToReadAllPieces(robot, colorSensor)
-# print(listPiecesOutside)
-# robot.straight(200)
-# robot.turn(90)
-# robot.straight(-reverseDistanceToPiece)
-# rotationMotor.run_angle(100, -90)
-# robot.straight(reverseDistanceToPiece)
-# robot.turn(-90)
-# robot.straight(300)
-# print(ultrasonSensor.distance())
-# robot.straight(ultrasonSensor.distance() - 10)
-# robot.turn(convertionRate(-90))
-# distanceToPiece = ultrasonSensor.distance() 
-# print(distanceToPiece)
-# robot.turn(convertionRate(-180))
-# if distanceToPiece - 20 > 0:
-#     robot.stop()
-#     robot.straight(-(distanceToPiece + 60))
-# rotationMotor.run_angle(100, -90)
-# robot.straight(600)
-
+print(listPiecesOutside) # testing to know that it is working
+rotationMotor.run_angle(100, 90)
+# make here a loop and it ends when there is 
+# no pieces or space to put the pieces ont he board
+while numberPiecesOnBoard < len(listPiecesOutside):
+    giveTheRobotThePiece(ev3, rotationMotor)
+    robot.reset() # need it to reset the distante traveled
+    goToPositionOnBoard(1, 3, robot, colorSensor)
+    distanceToComeBack = robot.distance() + 150 # plus the distance that he will make to straight right after
+    putPieceOnTheBoard(robot, rotationMotor)
+    goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
