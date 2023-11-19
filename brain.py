@@ -34,6 +34,8 @@ def readAllColorOfPieces(ev3, colorSensor):
         readColorOfPiece(ev3, colorSensor)
         wait(1500)
 
+# function that waits till the user gives the robot the piece
+# and when gives press the middle button to continue the program
 def giveTheRobotThePiece(ev3, rotationMotor):
     ev3.screen.draw_text(5, 20, "PIECE COLOR NEEDED")
     ev3.screen.draw_text(10, ev3.screen.height/2, listPiecesOutside[numberPiecesOnBoard])
