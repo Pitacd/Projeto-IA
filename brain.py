@@ -18,11 +18,10 @@ def readColorOfPiece(ev3, colorSensor):
     """
     The function reads the color of a piece using a color sensor and updates a list of colors read so 
     far.
+    
     Arguments:
         ev3: an EV3brick
         colorSensor:  an ColorSensor
-    Returns:
-        Nothing.
     """
     colorPiece = colorSensor.color() # stores the color read it by the robot in this instance
     ev3.screen.clear() 
@@ -42,11 +41,10 @@ def readAllColorOfPieces(ev3, colorSensor):
     """
     The function continuously reads the color of a piece using a color sensor until the center button on
     the EV3 brick is pressed.
+    
     Arguments:
         ev3: an EV3brick
         colorSensor: an ColorSensor
-    Returns:
-        Nothing.
     """
     while Button.CENTER not in ev3.buttons.pressed():
         readColorOfPiece(ev3, colorSensor)
@@ -59,11 +57,10 @@ def giveTheRobotThePiece(ev3, rotationMotor):
     The function rotates the grab motor and displays the color of the needed
     piece on the EV3 screen, waiting till the user gives the robot the piece
     by pressing the middle button of the EV3 brick.
+    
     Arguments:
         ev3: an EV3brick
         rotationMotor: an Motor
-    Returns:
-        Nothing.
     """
     ev3.screen.draw_text(5, 20, "PIECE COLOR NEEDED")
     ev3.screen.draw_text(10, ev3.screen.height/2, listPiecesOutside[numberPiecesOnBoard])
