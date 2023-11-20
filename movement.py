@@ -59,7 +59,7 @@ def putPieceOnTheBoard(robot, rotationMotor):
 # beginning to this works
 def goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor):
     """
-    The function goBackToInitialPosition moves the robot back to its initial position using
+    The function moves the robot back to its initial position using
     distanceToComeBack, robot, and ultrasonSensor.
     
     Arguments:
