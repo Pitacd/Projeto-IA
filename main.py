@@ -36,7 +36,7 @@ rotationMotor.run_angle(100, 90)
 # no pieces or space to put the pieces ont he board
 while numberPiecesOnBoard < len(listPiecesOutside):
     giveTheRobotThePiece(ev3, rotationMotor)
-    robot.reset() # need it to reset the distante traveled
+    robot.reset() # need it to reset the distance traveled
     goToPositionOnBoard(1, 3, robot, colorSensor)
     distanceToComeBack = robot.distance() + 150 # plus the distance that he will make to straight right after
     putPieceOnTheBoard(robot, rotationMotor)
