@@ -2,7 +2,7 @@ from pybricks.tools import wait
 from pybricks.parameters import Color
 import brain
 
-# Function to make the robot go to the corret position to 
+# Function to make the robot go to the correct position to 
 # put the piece on the board depending on the line and column
 # of the matrix
 def goToPositionOnBoard(line, column, robot, colorSensor):
