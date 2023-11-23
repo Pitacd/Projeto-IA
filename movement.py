@@ -5,7 +5,7 @@ import brain
 # Function to make the robot go to the correct position to 
 # put the piece on the board depending on the line and column
 # of the matrix
-def goToPositionOnBoard(line, column, robot, colorSensor):
+def goToPositionOnBoard(line, column, robot, ev3, colorSensor):
     """
     The function moves a robot to a specific position on a board by counting the
     number of black lines it passes given by knowing the line and column of the matrix
@@ -26,9 +26,10 @@ def goToPositionOnBoard(line, column, robot, colorSensor):
     robot.drive(100, 0)
     
     while numberOfBlackLinesPassed < numberOfBlackLinesToPutPiece:
-        wait(100)
-        if colorSensor.color() == Color.BLACK:
+        wait(92)
+        if colorSensor.color() == Color.BLACK: 
             numberOfBlackLinesPassed += 1
+            ev3.speaker.beep() #just to test
             
     robot.stop()
 
@@ -71,6 +72,6 @@ def goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor):
     wait(200)
     robot.turn(-90)
     wait(100)
-    robot.straight(ultrasonSensor.distance() - 10) # change if box moved from the tests
+    robot.straight(ultrasonSensor.distance() - 20) # change if box moved from the tests
     wait(200)
     robot.turn(-90)
