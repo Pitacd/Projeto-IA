@@ -26,7 +26,7 @@ ultrasonSensor = UltrasonicSensor(Port.S2)
 
 # Robot
 robot = DriveBase(leftMotor, rightMotor, 56, 130) # initial wheelDiameter = 56 and axleTrack = 119
-robot.settings(150, 100, 150, 100)
+robot.settings(150, 250, 150, 200)
 
 # Functions
 readAllColorOfPieces(ev3, colorSensor)
@@ -37,7 +37,7 @@ rotationMotor.run_angle(100, 90)
 while numberPiecesOnBoard < len(listPiecesOutside):
     giveTheRobotThePiece(ev3, rotationMotor)
     robot.reset() # need it to reset the distance traveled
-    goToPositionOnBoard(1, 3, robot, colorSensor)
+    goToPositionOnBoard(4, 4, robot, ev3, colorSensor)
     distanceToComeBack = robot.distance() + 150 # plus the distance that he will make to straight right after
     putPieceOnTheBoard(robot, rotationMotor)
     goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
