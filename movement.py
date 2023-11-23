@@ -27,9 +27,9 @@ def goToPositionOnBoard(line, column, robot, ev3, colorSensor):
     
     while numberOfBlackLinesPassed < numberOfBlackLinesToPutPiece:
         wait(92)
-        if colorSensor.color() == Color.BLACK: 
+        if colorSensor.color() == Color.BLACK:
             numberOfBlackLinesPassed += 1
-            ev3.speaker.beep() #just to test
+            ev3.speaker.beep()
             
     robot.stop()
 
@@ -72,6 +72,6 @@ def goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor):
     wait(200)
     robot.turn(-90)
     wait(100)
-    robot.straight(ultrasonSensor.distance() - 20) # change if box moved from the tests
+    robot.straight(ultrasonSensor.distance() - 10) # change if box moved from the tests
     wait(200)
     robot.turn(-90)
