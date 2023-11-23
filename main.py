@@ -36,25 +36,34 @@ print(listPiecesOutside) # testing to know that it is working
 rotationMotor.run_angle(100, 90)
 # make here a loop and it ends when there is 
 # no pieces or space to put the pieces ont he board
-while numberPiecesOnBoard < len(listPiecesOutside):
+while brain.numberPiecesOnBoard < len(listPiecesOutside):
     giveTheRobotThePiece(ev3, rotationMotor)
     robot.reset() # need it to reset the distance traveled
 
     # choose position #
     positionChoosed = False
     while not positionChoosed:
-        line = randint(0, 5)
-        column = randint(0, 5)  
-        if brain.board[column][line] == 0:
+        line = randint(0, 4)
+        column = randint(0, 4)  
+        if brain.board[line][column] == 0:
             positionChoosed = True
     # # # # # # # # # #
 
-    goToPositionOnBoard(line, column, robot, colorSensor)
+    print("The line is: " + str(line))
+    print("The column is: " + str(column))
+    goToPositionOnBoard(line, column, robot, ev3, colorSensor)
     distanceToComeBack = robot.distance() + 150 # plus the distance that he will make to straight right after
     
     # update board state # 
-    brain.board[column][line] = brain.listPiecesOutside[brain.numberPiecesOnBoard]
+    brain.board[line][column] = brain.listPiecesOutside[brain.numberPiecesOnBoard]
+    print(brain.board[0])
+    print(brain.board[1])
+    print(brain.board[2])
+    print(brain.board[3])
+    print(brain.board[4])
     # # # # # # # # # # # 
 
     putPieceOnTheBoard(robot, rotationMotor)
     goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
+
+ev3.speaker.beep()
