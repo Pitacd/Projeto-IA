@@ -10,6 +10,8 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 from brain import *
 from movement import *
 
+from random import randint
+
 # Create your objects here.
 ev3 = EV3Brick()
 
@@ -37,7 +39,22 @@ rotationMotor.run_angle(100, 90)
 while numberPiecesOnBoard < len(listPiecesOutside):
     giveTheRobotThePiece(ev3, rotationMotor)
     robot.reset() # need it to reset the distance traveled
-    goToPositionOnBoard(4, 4, robot, ev3, colorSensor)
+
+    # choose position #
+    positionChoosed = False
+    while not positionChoosed:
+        line = randint(0, 5)
+        column = randint(0, 5)  
+        if brain.board[column][line] == 0:
+            positionChoosed = True
+    # # # # # # # # # #
+
+    goToPositionOnBoard(line, column, robot, colorSensor)
     distanceToComeBack = robot.distance() + 150 # plus the distance that he will make to straight right after
+    
+    # update board state # 
+    brain.board[column][line] = brain.listPiecesOutside[brain.numberPiecesOnBoard]
+    # # # # # # # # # # # 
+
     putPieceOnTheBoard(robot, rotationMotor)
     goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
