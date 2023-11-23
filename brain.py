@@ -7,6 +7,14 @@ listPiecesOutside = []
 # List of color of the pieces allowed 
 # for the game
 listColorOfPieces = [Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN]
+# 5x5 matrix that represents the board state
+# 0 represents blank spaces with no pieces
+board = [[0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0]]
+
 # Number of pieces put on the board
 numberPiecesOnBoard = 0
 
