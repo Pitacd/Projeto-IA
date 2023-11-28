@@ -70,10 +70,10 @@ def giveTheRobotThePiece(ev3, rotationMotor):
         ev3: an EV3brick
         rotationMotor: an Motor
     """
+    rotationMotor.run_until_stalled(-100)
     ev3.screen.clear() 
     ev3.screen.draw_text(5, 20, "PIECE COLOR")
     ev3.screen.draw_text(10, ev3.screen.height/2, listPiecesOutside[numberPiecesOnBoard])
-    rotationMotor.run_angle(100, -90)
     while Button.CENTER not in ev3.buttons.pressed():
         wait(1000)
     ev3.screen.clear()
