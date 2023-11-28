@@ -5,7 +5,7 @@ import brain
 # Function to make the robot go to the correct position to 
 # put the piece on the board depending on the line and column
 # of the matrix
-def goToPositionOnBoard(line, column, robot, ev3, colorSensor):
+def goToPositionOnBoard(line, column, robot, ev3, rotationMotor,colorSensor):
     """
     The function moves a robot to a specific position on a board by counting the
     number of black lines it passes given by knowing the line and column of the matrix
@@ -23,6 +23,7 @@ def goToPositionOnBoard(line, column, robot, ev3, colorSensor):
     # variable that indicates the number of black lines 
     # passed by the robot on board
     numberOfBlackLinesPassed = 0
+    rotationMotor.run(-100)
     robot.drive(100, 0)
     
     while numberOfBlackLinesPassed < numberOfBlackLinesToPutPiece:
@@ -49,7 +50,8 @@ def putPieceOnTheBoard(robot, rotationMotor):
     robot.turn(-90)
     wait(100)
     robot.straight(400)
-    rotationMotor.run_angle(100, 90)
+    rotationMotor.stop()
+    rotationMotor.run_until_stalled(100)
     brain.numberPiecesOnBoard += 1
     robot.straight(200)
     wait(200)
