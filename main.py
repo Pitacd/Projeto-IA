@@ -33,7 +33,7 @@ robot.settings(150, 250, 150, 200)
 # Functions
 readAllColorOfPieces(ev3, colorSensor)
 print(listPiecesOutside) # testing to know that it is working
-rotationMotor.run_angle(100, 90)
+
 # make here a loop and it ends when there is 
 # no pieces or space to put the pieces ont he board
 while brain.numberPiecesOnBoard < len(listPiecesOutside):
@@ -51,7 +51,7 @@ while brain.numberPiecesOnBoard < len(listPiecesOutside):
 
     print("The line is: " + str(line))
     print("The column is: " + str(column))
-    goToPositionOnBoard(line, column, robot, ev3, colorSensor)
+    goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
     distanceToComeBack = robot.distance() + 150 # plus the distance that he will make to straight right after
     
     # update board state # 
@@ -65,5 +65,4 @@ while brain.numberPiecesOnBoard < len(listPiecesOutside):
 
     putPieceOnTheBoard(robot, rotationMotor)
     goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
-
 ev3.speaker.beep()
