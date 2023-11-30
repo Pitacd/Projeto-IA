@@ -52,11 +52,15 @@ while len(brain.listPiecesOutside) > 0:
     # get the distance to come back
     distanceToComeBack = robot.distance() + 150    
     
-    # update board state
+    # update board state 
+    # by adding to the board the first
+    # piece from listPiecesOutside
     brain.board[line][column] = brain.listPiecesOutside[0]
     
     # update pieces outside
-    brain.listPiecesOutside.pop(0) # verify at home
+    # deleting the first piece from list
+    # because it was moved to the board
+    del brain.listPiecesOutside[0] 
 
     # print the board on the console
     print(brain.board[0])
