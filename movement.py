@@ -1,6 +1,5 @@
 from pybricks.tools import wait
 from pybricks.parameters import Color
-import brain
 
 # Function to make the robot go to the correct position to 
 # put the piece on the board depending on the line and column
@@ -52,7 +51,6 @@ def putPieceOnTheBoard(robot, rotationMotor):
     robot.straight(400)
     rotationMotor.stop()
     rotationMotor.run_until_stalled(100)
-    brain.numberPiecesOnBoard += 1
     robot.straight(200)
     wait(200)
     robot.turn(-90)
