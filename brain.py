@@ -19,9 +19,6 @@ board = [[0, 0, 0, 0, 0],
          [0, 0, 0, 0, 0],
          [0, 0, 0, 0, 0]]
 
-# Number of pieces put on the board
-numberPiecesOnBoard = 0
-
 # List of all the possible board 
 # positions to put the piece on 
 listPossiblePositions = [(i, j) for i in range(len(board)) for j in range(len(board[i]))]
@@ -80,17 +77,17 @@ def giveTheRobotThePiece(ev3, rotationMotor):
     rotationMotor.run_until_stalled(-100)
     ev3.screen.clear() 
     ev3.screen.draw_text(5, 20, "PIECE COLOR")
-    ev3.screen.draw_text(10, ev3.screen.height/2, listPiecesOutside[numberPiecesOnBoard])
+    ev3.screen.draw_text(10, ev3.screen.height/2, listPiecesOutside[0])
     while Button.CENTER not in ev3.buttons.pressed():
         wait(1000)
     ev3.screen.clear()
 
-def chooseNextPosition():
+def choosePosition():
     """
     The function selects the next position of the board (with no pieces) 
     to put the next piece 
     """
-    nextPositionIndex = randint(0, len(listPossiblePositions) - 1)
-    nextPosition = listPossiblePositions[nextPositionIndex]
-    listPossiblePositions.pop(nextPositionIndex)
-    return nextPosition
+    positionIndex = randint(0, len(listPossiblePositions) - 1)
+    position = listPossiblePositions[positionIndex]
+    listPossiblePositions.pop(positionIndex)
+    return position
