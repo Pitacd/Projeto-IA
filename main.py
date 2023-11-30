@@ -7,7 +7,7 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
 #Brain and Movement of the Robot for the Game
-from brain import *
+import brain
 from movement import *
 
 # Create your objects here.
@@ -29,20 +29,20 @@ robot = DriveBase(leftMotor, rightMotor, 56, 130) # initial wheelDiameter = 56 a
 robot.settings(150, 250, 150, 200)
 
 # Functions
-readAllColorOfPieces(ev3, colorSensor)
-print(listPiecesOutside) # testing to know that it is working
+brain.readAllColorOfPieces(ev3, colorSensor)
+print(brain.listPiecesOutside) # testing to know that it is working
 
 # make here a loop and it ends when there is 
 # no pieces or space to put the pieces ont he board
-while brain.numberPiecesOnBoard < len(listPiecesOutside):
+while len(brain.listPiecesOutside) > 0:
     # obtain the piece
-    giveTheRobotThePiece(ev3, rotationMotor)
+    brain.giveTheRobotThePiece(ev3, rotationMotor)
     
     # reset the distance traveled
     robot.reset() 
 
     # choose the next position 
-    (line, column) = chooseNextPosition()
+    (line, column) = brain.choosePosition()
     print("The line is: " + str(line))
     print("The column is: " + str(column))
     
@@ -53,7 +53,10 @@ while brain.numberPiecesOnBoard < len(listPiecesOutside):
     distanceToComeBack = robot.distance() + 150    
     
     # update board state
-    brain.board[line][column] = brain.listPiecesOutside[brain.numberPiecesOnBoard]
+    brain.board[line][column] = brain.listPiecesOutside[0]
+    
+    # update pieces outside
+    brain.listPiecesOutside.pop(0) # verify at home
 
     # print the board on the console
     print(brain.board[0])
