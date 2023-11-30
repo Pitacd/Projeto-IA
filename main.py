@@ -10,8 +10,6 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 from brain import *
 from movement import *
 
-from random import randint
-
 # Create your objects here.
 ev3 = EV3Brick()
 
@@ -37,32 +35,37 @@ print(listPiecesOutside) # testing to know that it is working
 # make here a loop and it ends when there is 
 # no pieces or space to put the pieces ont he board
 while brain.numberPiecesOnBoard < len(listPiecesOutside):
+    # obtain the piece
     giveTheRobotThePiece(ev3, rotationMotor)
-    robot.reset() # need it to reset the distance traveled
+    
+    # reset the distance traveled
+    robot.reset() 
 
-    # choose position #
-    positionChoosed = False
-    while not positionChoosed:
-        line = randint(0, 4)
-        column = randint(0, 4)  
-        if brain.board[line][column] == 0:
-            positionChoosed = True
-    # # # # # # # # # #
-
+    # choose the next position 
+    (line, column) = chooseNextPosition()
     print("The line is: " + str(line))
     print("The column is: " + str(column))
-    goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
-    distanceToComeBack = robot.distance() + 150 # plus the distance that he will make to straight right after
     
-    # update board state # 
+    # go to the next board position
+    goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
+    
+    # get the distance to come back
+    distanceToComeBack = robot.distance() + 150    
+    
+    # update board state
     brain.board[line][column] = brain.listPiecesOutside[brain.numberPiecesOnBoard]
+
+    # print the board on the console
     print(brain.board[0])
     print(brain.board[1])
     print(brain.board[2])
     print(brain.board[3])
     print(brain.board[4])
-    # # # # # # # # # # # 
 
+    # put the piece on the board
     putPieceOnTheBoard(robot, rotationMotor)
+
+    # return to the initial position
     goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
+
 ev3.speaker.beep()

@@ -1,12 +1,16 @@
 from pybricks.parameters import Color, Button
 from pybricks.tools import wait
 
+from random import randint
+
 # List that contains the color of the
 # pieces outside of the board
 listPiecesOutside = []
+
 # List of color of the pieces allowed 
 # for the game
 listColorOfPieces = [Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN]
+
 # 5x5 matrix that represents the board state
 # 0 represents blank spaces with no pieces
 board = [[0, 0, 0, 0, 0],
@@ -18,6 +22,9 @@ board = [[0, 0, 0, 0, 0],
 # Number of pieces put on the board
 numberPiecesOnBoard = 0
 
+# List of all the possible board 
+# positions to put the piece on 
+listPossiblePositions = [(i, j) for i in range(len(board)) for j in range(len(board[i]))]
 
 # function to read one color with the color sensor 
 # and displays it on the screen of the ev3. 
@@ -77,3 +84,13 @@ def giveTheRobotThePiece(ev3, rotationMotor):
     while Button.CENTER not in ev3.buttons.pressed():
         wait(1000)
     ev3.screen.clear()
+
+def chooseNextPosition():
+    """
+    The function selects the next position of the board (with no pieces) 
+    to put the next piece 
+    """
+    nextPositionIndex = randint(0, len(listPossiblePositions) - 1)
+    nextPosition = listPossiblePositions[nextPositionIndex]
+    listPossiblePositions.pop(nextPositionIndex)
+    return nextPosition
