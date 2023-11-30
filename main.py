@@ -1,7 +1,7 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, ColorSensor, UltrasonicSensor)
-from pybricks.parameters import Port, Stop, Direction, Color
+from pybricks.parameters import Port, Stop, Direction, Color, Button
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
@@ -25,32 +25,47 @@ colorSensor = ColorSensor(Port.S1)
 ultrasonSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 56, 121) # initial wheelDiameter = 56 and axleTrack = 119
+robot = DriveBase(leftMotor, rightMotor, 56, 130) # initial wheelDiameter = 56 and axleTrack = 119
+robot.settings(150, 250, 150, 200)
 
 # Functions
+readAllColorOfPieces(ev3, colorSensor)
+print(listPiecesOutside) # testing to know that it is working
 
-goToPositionOnBoard(0, 4, robot, colorSensor)
-# reverseDistanceToPiece = 100
+# make here a loop and it ends when there is 
+# no pieces or space to put the pieces ont he board
+while brain.numberPiecesOnBoard < len(listPiecesOutside):
+    # obtain the piece
+    giveTheRobotThePiece(ev3, rotationMotor)
+    
+    # reset the distance traveled
+    robot.reset() 
 
-# rotationMotor.run_angle(100, 90)
-# movementToReadAllPieces(robot, colorSensor)
-# print(listPiecesOutside)
-# robot.straight(200)
-# robot.turn(90)
-# robot.straight(-reverseDistanceToPiece)
-# rotationMotor.run_angle(100, -90)
-# robot.straight(reverseDistanceToPiece)
-# robot.turn(-90)
-# robot.straight(300)
-# print(ultrasonSensor.distance())
-# robot.straight(ultrasonSensor.distance() - 10)
-# robot.turn(convertionRate(-90))
-# distanceToPiece = ultrasonSensor.distance() 
-# print(distanceToPiece)
-# robot.turn(convertionRate(-180))
-# if distanceToPiece - 20 > 0:
-#     robot.stop()
-#     robot.straight(-(distanceToPiece + 60))
-# rotationMotor.run_angle(100, -90)
-# robot.straight(600)
+    # choose the next position 
+    (line, column) = chooseNextPosition()
+    print("The line is: " + str(line))
+    print("The column is: " + str(column))
+    
+    # go to the next board position
+    goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
+    
+    # get the distance to come back
+    distanceToComeBack = robot.distance() + 150    
+    
+    # update board state
+    brain.board[line][column] = brain.listPiecesOutside[brain.numberPiecesOnBoard]
 
+    # print the board on the console
+    print(brain.board[0])
+    print(brain.board[1])
+    print(brain.board[2])
+    print(brain.board[3])
+    print(brain.board[4])
+
+    # put the piece on the board
+    putPieceOnTheBoard(robot, rotationMotor)
+
+    # return to the initial position
+    goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
+
+ev3.speaker.beep()
