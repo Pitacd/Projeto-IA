@@ -91,6 +91,5 @@ def choosePosition():
         position: (line, column)
     """
     positionIndex = randint(0, len(listPossiblePositions) - 1)
-    position = listPossiblePositions[positionIndex]
-    listPossiblePositions.pop(positionIndex)
+    position = listPossiblePositions.pop(positionIndex)
     return position
