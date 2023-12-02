@@ -32,9 +32,9 @@ robot.settings(150, 250, 150, 200)
 brain.readAllColorOfPieces(ev3, colorSensor)
 print(brain.listPiecesOutside) # testing to know that it is working
 
-# make here a loop and it ends when there is 
-# no pieces or space to put the pieces ont he board
-while len(brain.listPiecesOutside) > 0:
+# The loop is checking if either pieces 
+# to put on the board or the board is full
+while len(brain.listPiecesOutside) > 0 or len(brain.listPossiblePositions) > 0:
     # obtain the piece
     brain.giveTheRobotThePiece(ev3, rotationMotor)
     
@@ -55,12 +55,8 @@ while len(brain.listPiecesOutside) > 0:
     # update board state 
     # by adding to the board the first
     # piece from listPiecesOutside
-    brain.board[line][column] = brain.listPiecesOutside[0]
-    
-    # update pieces outside
-    # deleting the first piece from list
-    # because it was moved to the board
-    del brain.listPiecesOutside[0] 
+    # removing it from there
+    brain.board[line][column] = brain.listPiecesOutside.pop(0)
 
     # print the board on the console
     print(brain.board[0])
