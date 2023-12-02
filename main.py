@@ -60,7 +60,7 @@ while len(brain.listPiecesOutside) > 0:
     # update pieces outside
     # deleting the first piece from list
     # because it was moved to the board
-    del brain.listPiecesOutside[0] 
+    brain.listPiecesOutside.pop(0) 
 
     # print the board on the console
     print(brain.board[0])
