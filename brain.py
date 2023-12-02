@@ -86,6 +86,9 @@ def choosePosition():
     """
     The function selects the next position of the board (with no pieces) 
     to put the next piece 
+    
+    Returns:
+        position: (line, column)
     """
     positionIndex = randint(0, len(listPossiblePositions) - 1)
     position = listPossiblePositions[positionIndex]
