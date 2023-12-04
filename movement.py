@@ -29,7 +29,7 @@ def goToPositionOnBoard(line, column, robot, ev3, rotationMotor,colorSensor):
         if colorSensor.color() == Color.BLACK:
             numberOfBlackLinesPassed += 1
             ev3.speaker.beep()
-            wait(90)
+            wait(100)
             
     robot.stop()
 
