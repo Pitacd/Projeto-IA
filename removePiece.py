@@ -9,6 +9,7 @@ whichFormRemove=0 #0=dont remove|1 or more is which form to remove in the respec
 #l=line
 #c=column
 
+
 def removeForms(b, piece, l, c): #returns [bWithAlterations,points]
     b[l][c]=piece
     if piece==minus:
@@ -28,15 +29,15 @@ def removeForms(b, piece, l, c): #returns [bWithAlterations,points]
 def verifyMinus(b, l, c):
     points=0
     numberOfMinus=1
-    if c not 0:
+    if not c==0:
         if b[l][c-1]==minus:
             b[l][c-1]=blank
             numberOfMinus+=1
-    if c not 4:
+    if not c==4:
         if b [l][c+1]==minus:
             b[l][c+1]=blank
             numberOfMinus+=1
-    if numberOfMinus not 1:
+    if not numberOfMinus==1:
         b[l][c]=blank
         points+=2**numberOfMinus
     return [b,points]
@@ -65,23 +66,24 @@ def removeBigPlus(b):
 
 def isSmallPlus(b):
     #whichFormRemove: 0=none|1-9 left->right top->bottom
+    global whichFormRemove
     whichFormRemove=0
     i=0
     possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]  #REFERENCE TO THE MIDDLE PIECE
     for p in possibleSmall:
         i+=1
-        if b[p[0],p[1]]==plus and b[p[0]+1,p[1]]==plus and b[p[0]-1,p[1]]==plus and b[p[0],p[1]+1]==plus and b[p[0],p[1]-1]==plus:
+        if (b[p[0]][p[1]]==plus and b[p[0]+1][p[1]]==plus and b[p[0]-1][p[1]]==plus and b[p[0]][p[1]+1]==plus and b[p[0]][p[1]-1]==plus):
             whichFormRemove=i
             break
     return whichFormRemove
 def removeSmallPlus(b):
     possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
     p=possibleSmall[whichFormRemove-1]
-    b[p[0],p[1]]=blank
-    b[p[0]+1,p[1]]=blank
-    b[p[0]-1,p[1]]=blank
-    b[p[0],p[1]+1]=blank
-    b[p[0],p[1]-1]=blank
+    b[p[0]][p[1]]=blank
+    b[p[0]+1][p[1]]=blank
+    b[p[0]-1][p[1]]=blank
+    b[p[0]][p[1]+1]=blank
+    b[p[0]][p[1]-1]=blank
     return b
 
 #/\/\/\/\/\/\/\/\/\/\/\/  "x"  \/\/\/\/\/\/\/\/\/\/\/\
@@ -96,34 +98,39 @@ def verifyX(b):
     return [b,points]
 
 def isBigX(b):
-    return (b[2][0]==x and b[2][1]==x and b[2][2]==x and b[2][3]==x and b[2][4]==x and b[0][2]==x and b[1][2]==x and b[3][2]==x and b[4][2]==x)
+    return (b[0][0]==x and b[1][1]==x and b[2][2]==x and b[3][3]==x and b[4][4]==x and b[0][4]==x and b[1][3]==x and b[3][1]==x and b[4][0]==x)
 def removeBigX(b):
-    b[2]=[blank,blank,blank,blank,blank]
-    b[0][2]=blank
-    b[1][2]=blank
-    b[3][2]=blank
-    b[4][2]=blank
+    b[0][0]=blank
+    b[1][1]=blank
+    b[2][2]=blank
+    b[3][3]=blank
+    b[4][4]=blank 
+    b[0][4]=blank
+    b[1][3]=blank
+    b[3][1]=blank
+    b[4][0]=blank
     return b
 
 def isSmallX(b):
     #whichFormRemove: 0=none|1-9 left->right top->bottom
+    global whichFormRemove
     whichFormRemove=0
     i=0
     possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]  #REFERENCE TO THE MIDDLE PIECE
     for p in possibleSmall:
         i+=1
-        if b[p[0],p[1]]==x and b[p[0]-1,p[1]-1]==x and b[p[0]-1,p[1]+1]==x and b[p[0]+1,p[1]-1]==x and b[p[0]-1,p[1]-1]==x:
+        if b[p[0]][p[1]]==x and b[p[0]-1][p[1]-1]==x and b[p[0]-1][p[1]+1]==x and b[p[0]+1][p[1]-1]==x and b[p[0]+1][p[1]+1]==x:
             whichFormRemove=i
             break
     return whichFormRemove
 def removeSmallX(b):
     possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
     p=possibleSmall[whichFormRemove-1]
-    b[p[0],p[1]]=blank
-    b[p[0]-1,p[1]-1]=blank
-    b[p[0]-1,p[1]+1]=blank
-    b[p[0]+1,p[1]-1]=blank
-    b[p[0]-1,p[1]-1]=blank
+    b[p[0]][p[1]]=blank
+    b[p[0]-1][p[1]-1]=blank
+    b[p[0]-1][p[1]+1]=blank
+    b[p[0]+1][p[1]-1]=blank
+    b[p[0]+1][p[1]+1]=blank
     return b
 #/\/\/\/\/\/\/\/\/\/\/\/  "o"  \/\/\/\/\/\/\/\/\/\/\/\
 def verifyCircle(b):
@@ -157,6 +164,7 @@ def removeMegaCircle(b):
 
 def isBigCircle(b):
     #whichFormRemove: 0=none|1=top left|2= top right|3=bottom left|4=bottom right
+    global whichFormRemove
     whichFormRemove=0
     i=0
     possibleBig=[[0,0],[0,1],[1,0],[1,1]]
@@ -185,6 +193,7 @@ def removeBigCircle (b):
 
 def isMidCircle(b):
     #whichFormRemove: 0=none|1-9 left->right top->bottom
+    global whichFormRemove
     whichFormRemove=0
     i=0
     possibleMid=[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
@@ -209,13 +218,14 @@ def removeMidCircle (b):
 
 def isSmallCircle(b):
     #whichFormRemove: 0=none|1-16 left->right top->bottom
+    global whichFormRemove
     whichFormRemove=0
     i=0
     possibleSmall=[[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]
     for p in possibleSmall:
         i+=1
         if b[p[0]][p[1]]==o and b[p[0]+1][p[1]]==o and b[p[0]][p[1]+1]==o and b[p[0]+1][p[1]+1]==o:
-        whichFormRemove=i
+            whichFormRemove=i
             break
     return whichFormRemove
 def removeSmallCircle (b):
