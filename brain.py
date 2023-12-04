@@ -17,11 +17,11 @@ listColorOfPieces = [color for color in mapColorToSymbol]
 
 # 5x5 matrix that represents the board state
 # 0 represents blank spaces with no pieces
-board = [[0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0]]
+board = [["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"]]
 
 # Number of pieces put on the board
 numberPiecesOnBoard = 0
