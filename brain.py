@@ -7,9 +7,13 @@ from random import randint
 # pieces outside of the board
 listPiecesOutside = []
 
+# Key-value pairs that map a color to
+# a board symbol (for visibility purposes)
+mapColorToSymbol = { Color.BLUE : "+", Color.YELLOW : "X", Color.RED : "O", Color.GREEN : "-"}
+
 # List of color of the pieces allowed 
 # for the game
-listColorOfPieces = [Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN]
+listColorOfPieces = [color for color in mapColorToSymbol]
 
 # 5x5 matrix that represents the board state
 # 0 represents blank spaces with no pieces
