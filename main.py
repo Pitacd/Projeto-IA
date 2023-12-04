@@ -53,6 +53,9 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
     distanceToComeBack = robot.distance() + 150    
     
     # update board state on the robot's brain
+    # by adding to the board the first
+    # piece from listPiecesOutside
+    # removing it from there
     pieceColor = brain.listPiecesOutside.pop(0)
     pieceSymbol = brain.mapColorToSymbol.get(pieceColor)
     brain.board[line][column] = pieceSymbol
