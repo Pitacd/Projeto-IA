@@ -25,8 +25,8 @@ colorSensor = ColorSensor(Port.S1)
 ultrasonSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 56, 130) # initial wheelDiameter = 56 and axleTrack = 119
-robot.settings(150, 250, 150, 200)
+robot = DriveBase(leftMotor, rightMotor, 57, 130) 
+robot.settings(150, 100, 150, 200)
 
 # Functions
 brain.readAllColorOfPieces(ev3, colorSensor)
@@ -34,7 +34,7 @@ print(brain.listPiecesOutside) # testing to know that it is working
 
 # The loop is checking if either pieces 
 # to put on the board or the board is full
-while len(brain.listPiecesOutside) > 0 or len(brain.listPossiblePositions) > 0:
+while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
     # obtain the piece
     brain.giveTheRobotThePiece(ev3, rotationMotor)
     
