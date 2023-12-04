@@ -9,7 +9,7 @@ listPiecesOutside = []
 
 # Key-value pairs that map a color to
 # a board symbol (for visibility purposes)
-mapColorToSymbol = { Color.BLUE : "+", Color.YELLOW : "X", Color.RED : "O", Color.GREENColor : "-"}
+mapColorToSymbol = { Color.BLUE : "+", Color.YELLOW : "X", Color.RED : "O", Color.GREEN : "-"}
 
 # List of color of the pieces allowed 
 # for the game

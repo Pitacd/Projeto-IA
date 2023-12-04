@@ -53,7 +53,7 @@ while brain.numberPiecesOnBoard < len(listPiecesOutside):
     distanceToComeBack = robot.distance() + 150    
     
     # update board state on the robot's brain
-    pieceColor = brain.listPiecesOutside[brain.numberPiecesOnBoard]
+    pieceColor = brain.listPiecesOutside.pop(0)
     pieceSymbol = brain.mapColorToSymbol.get(pieceColor)
     brain.board[line][column] = pieceSymbol
 
