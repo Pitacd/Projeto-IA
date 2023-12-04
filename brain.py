@@ -7,9 +7,13 @@ from random import randint
 # pieces outside of the board
 listPiecesOutside = []
 
+# Key-value pairs that map a color to
+# a board symbol (for visibility purposes)
+mapColorToSymbol = { Color.BLUE : "+", Color.YELLOW : "X", Color.RED : "O", Color.GREENColor : "-"}
+
 # List of color of the pieces allowed 
 # for the game
-listColorOfPieces = [Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN]
+listColorOfPieces = [color for color in mapColorToSymbol]
 
 # 5x5 matrix that represents the board state
 # 0 represents blank spaces with no pieces
@@ -91,6 +95,5 @@ def chooseNextPosition():
     to put the next piece 
     """
     nextPositionIndex = randint(0, len(listPossiblePositions) - 1)
-    nextPosition = listPossiblePositions[nextPositionIndex]
-    listPossiblePositions.pop(nextPositionIndex)
+    nextPosition = listPossiblePositions.pop(nextPositionIndex)
     return nextPosition
