@@ -25,8 +25,8 @@ colorSensor = ColorSensor(Port.S1)
 ultrasonSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 57, 130) 
-robot.settings(150, 100, 150, 200)
+robot = DriveBase(leftMotor, rightMotor, 56, 129) 
+robot.settings(150, 50, 150, 100)
 
 # Functions
 brain.readAllColorOfPieces(ev3, colorSensor)
