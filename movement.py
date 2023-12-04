@@ -48,7 +48,7 @@ def putPieceOnTheBoard(robot, rotationMotor):
     wait(200)
     robot.turn(-90)
     wait(100)
-    robot.straight(400)
+    robot.straight(390)
     rotationMotor.stop()
     rotationMotor.run_until_stalled(100)
     robot.straight(200)
