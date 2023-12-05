@@ -7,20 +7,21 @@ from random import randint
 # pieces outside of the board
 listPiecesOutside = []
 
+# Key-value pairs that map a color to
+# a board symbol (for visibility purposes)
+mapColorToSymbol = { Color.BLUE : "+", Color.YELLOW : "X", Color.RED : "O", Color.GREEN : "-"}
+
 # List of color of the pieces allowed 
 # for the game
-listColorOfPieces = [Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN]
+listColorOfPieces = [color for color in mapColorToSymbol]
 
 # 5x5 matrix that represents the board state
 # 0 represents blank spaces with no pieces
-board = [[0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0]]
-
-# Number of pieces put on the board
-numberPiecesOnBoard = 0
+board = [["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"]]
 
 # List of all the possible board 
 # positions to put the piece on 
@@ -80,17 +81,19 @@ def giveTheRobotThePiece(ev3, rotationMotor):
     rotationMotor.run_until_stalled(-100)
     ev3.screen.clear() 
     ev3.screen.draw_text(5, 20, "PIECE COLOR")
-    ev3.screen.draw_text(10, ev3.screen.height/2, listPiecesOutside[numberPiecesOnBoard])
+    ev3.screen.draw_text(10, ev3.screen.height/2, listPiecesOutside[0])
     while Button.CENTER not in ev3.buttons.pressed():
         wait(1000)
     ev3.screen.clear()
 
-def chooseNextPosition():
+def choosePosition():
     """
     The function selects the next position of the board (with no pieces) 
     to put the next piece 
+    
+    Returns:
+        position: (line, column)
     """
-    nextPositionIndex = randint(0, len(listPossiblePositions) - 1)
-    nextPosition = listPossiblePositions[nextPositionIndex]
-    listPossiblePositions.pop(nextPositionIndex)
-    return nextPosition
+    positionIndex = randint(0, len(listPossiblePositions) - 1)
+    position = listPossiblePositions.pop(positionIndex)
+    return position

@@ -1,6 +1,5 @@
 from pybricks.tools import wait
 from pybricks.parameters import Color
-import brain
 
 # Function to make the robot go to the correct position to 
 # put the piece on the board depending on the line and column
@@ -30,7 +29,7 @@ def goToPositionOnBoard(line, column, robot, ev3, rotationMotor,colorSensor):
         if colorSensor.color() == Color.BLACK:
             numberOfBlackLinesPassed += 1
             ev3.speaker.beep()
-            wait(90)
+            wait(100)
             
     robot.stop()
 
@@ -49,10 +48,9 @@ def putPieceOnTheBoard(robot, rotationMotor):
     wait(200)
     robot.turn(-90)
     wait(100)
-    robot.straight(400)
+    robot.straight(390)
     rotationMotor.stop()
     rotationMotor.run_until_stalled(100)
-    brain.numberPiecesOnBoard += 1
     robot.straight(200)
     wait(200)
     robot.turn(-90)
