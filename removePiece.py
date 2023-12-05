@@ -273,129 +273,336 @@ def removeBigX(board):
     
     return board
 
-def isSmallX(b):
-    #whichFormRemove: 0=none|1-9 left->right top->bottom
+def isSmallX(board):
+    """
+    The function checks, from left to right and top to bottom, if there is a small X shape
+    formed by the X pieces on a given board and returns the number of the form to remove if found.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        formToBeRemove: an integer
+    """
     global whichFormRemove
     whichFormRemove=0
-    i=0
-    possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]  #REFERENCE TO THE MIDDLE PIECE
+    
+    # indicates with a number which form to remove
+    formToRemove = 0
+    
+    # list with the positions on the board 
+    # of the middle piece of the possible forms 
+    possibleSmall = [[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]  
+    
     for p in possibleSmall:
-        i+=1
-        if b[p[0]][p[1]]==xPiece and b[p[0]-1][p[1]-1]==xPiece and b[p[0]-1][p[1]+1]==xPiece and b[p[0]+1][p[1]-1]==xPiece and b[p[0]+1][p[1]+1]==xPiece:
-            whichFormRemove=i
+        formToRemove += 1
+        
+        if (board[p[0]][p[1]] == xPiece and 
+            board[p[0]-1][p[1]-1] == xPiece and 
+            board[p[0]-1][p[1]+1] == xPiece and 
+            board[p[0]+1][p[1]-1] == xPiece and 
+            board[p[0]+1][p[1]+1] == xPiece):
+            whichFormRemove=formToRemove
             break
+        
     return whichFormRemove
 
-def removeSmallX(b):
-    possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
-    p=possibleSmall[whichFormRemove-1]
-    b[p[0]][p[1]]=blankSpot
-    b[p[0]-1][p[1]-1]=blankSpot
-    b[p[0]-1][p[1]+1]=blankSpot
-    b[p[0]+1][p[1]-1]=blankSpot
-    b[p[0]+1][p[1]+1]=blankSpot
-    return b
-#/\/\/\/\/\/\/\/\/\/\/\/  "o"  \/\/\/\/\/\/\/\/\/\/\/\
-def verifyCircle(b):
+def removeSmallX(board):
+    """
+    The function takes a board as input and removes a small X shape from the board by
+    replacing the corresponding positions with a blank spot.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        boardWithoutSmallX: an matrix 5x5
+    """
+    
+    # list with the positions on the board 
+    # of the middle piece of the possible forms 
+    possibleSmall = [[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
+    
+    # indicates what is the position 
+    # of the middle piece of the form to be removed
+    p = possibleSmall[whichFormRemove-1]
+    
+    board[p[0]][p[1]] = blankSpot
+    board[p[0]-1][p[1]-1] = blankSpot
+    board[p[0]-1][p[1]+1] = blankSpot
+    board[p[0]+1][p[1]-1] = blankSpot
+    board[p[0]+1][p[1]+1] = blankSpot
+    
+    return board
+
+#---------------------------------------//----------------------------------------------- 
+# "O" piece 
+
+def verifyCircle(board):
+    """
+    The function takes a board as input and checks if it contains a mega circle, big
+    circle, mid circle, or small circle, and returns the updated board and the corresponding points.
+    
+    Arguments:
+        board: an matrix 5x5
+    
+    Returns:
+        boardPoints: [board, points] 
+    """
     points=0
-    if isMegaCircle(b): # if is MEGA, 5x5  16pieces
-        b=removeMegaCircle(b)
-        points+=2**16
-    elif isBigCircle(b):# if is BIG, 4x4  12pieces
-        b=removeBigCircle(b)
-        points+=2**12
-    elif isMidCircle(b):# if is MID, 3x3  8pieces
-        b=removeMidCircle(b)
-        points+=2**8
-    elif isSmallCircle(b):# if is SMALL, 2x2  4pieces
-        removeSmallCircle(b)
-        points+=2**4
-    return [b,points]
+    
+    if isMegaCircle(board): # if is MEGA, 5x5  16pieces
+        board = removeMegaCircle(board)
+        points += 2**16
+    elif isBigCircle(board):# if is BIG, 4x4  12pieces
+        board = removeBigCircle(board)
+        points += 2**12
+    elif isMidCircle(board):# if is MID, 3x3  8pieces
+        board = removeMidCircle(board)
+        points += 2**8
+    elif isSmallCircle(board):# if is SMALL, 2x2  4pieces
+        removeSmallCircle(board)
+        points += 2**4
+    
+    return [board,points]
 
-def isMegaCircle(b):
-    return (b[0][0]==oPiece and b[0][1]==oPiece and b[0][2]==oPiece and b[0][3]==oPiece and b[0][4]==oPiece and b[1][0]==oPiece and b[2][0]==oPiece and b[3][0]==oPiece and b[4][0]==oPiece and b[4][1]==oPiece and b[4][2]==oPiece and b[4][3]==oPiece and b[4][4]==oPiece and b[3][4]==oPiece and b[2][4]==oPiece and b[1][4]==oPiece)
-def removeMegaCircle(b):
-    b[0]=[blankSpot,blankSpot,blankSpot,blankSpot,blankSpot]
-    b[4]=[blankSpot,blankSpot,blankSpot,blankSpot,blankSpot]
-    b[1][0]=blankSpot
-    b[2][0]=blankSpot
-    b[3][0]=blankSpot
-    b[1][4]=blankSpot
-    b[2][4]=blankSpot
-    b[3][4]=blankSpot
-    return b
+def isMegaCircle(board):
+    """
+    The function checks if a specific pattern of "O" pieces is present on a 5x5 board.
+    
+    Arguments:
+        board: an matrix 5x5
+    
+    Returns:
+        haveMegaCircle: an bool
+    """
 
-def isBigCircle(b):
-    #whichFormRemove: 0=none|1=top left|2= top right|3=bottom left|4=bottom right
+    return (board[0][0] == oPiece and 
+            board[0][1] == oPiece and 
+            board[0][2] == oPiece and 
+            board[0][3] == oPiece and 
+            board[0][4] == oPiece and 
+            board[1][0] == oPiece and 
+            board[2][0] == oPiece and 
+            board[3][0] == oPiece and 
+            board[4][0] == oPiece and 
+            board[4][1] == oPiece and 
+            board[4][2] == oPiece and
+            board[4][3] == oPiece and 
+            board[4][4] == oPiece and
+            board[3][4] == oPiece and
+            board[2][4] == oPiece and 
+            board[1][4] == oPiece)
+
+def removeMegaCircle(board):
+    """
+    The function removes a "mega circle" from a given board by replacing certain elements with a blank
+    spot.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        boardWithoutMegaCircle: an matrix 5x5
+    """
+    board[0] = [blankSpot,blankSpot,blankSpot,blankSpot,blankSpot]
+    board[4] = [blankSpot,blankSpot,blankSpot,blankSpot,blankSpot]
+    board[1][0] = blankSpot
+    board[2][0] = blankSpot
+    board[3][0] = blankSpot
+    board[1][4] = blankSpot
+    board[2][4] = blankSpot
+    board[3][4] = blankSpot
+    
+    return board
+
+def isBigCircle(board):
+    """
+    The function checks, from left to right and top to bottom, if there is a big circle formed 
+    by the 'o' pieces on the board and returns the number indicating which form to remove.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        formToBeRemove: an integer
+    """
     global whichFormRemove
-    whichFormRemove=0
-    i=0
-    possibleBig=[[0,0],[0,1],[1,0],[1,1]]
+    whichFormRemove = 0
+    
+    # indicates with a number which form to remove
+    formToRemove = 0
+    # list with the positions on the board 
+    # of the left top 'O' piece in a big form of this piece
+    possibleBig = [[0,0],[0,1],[1,0],[1,1]]
+    
     for p in possibleBig:
-        i+=1
-        if b[p[0]][p[1]]==oPiece and b[p[0]][p[1]+1]==oPiece and b[p[0]][p[1]+2]==oPiece and b[p[0]][p[1]+3]==oPiece and b[p[0]+1][p[1]]==oPiece and b[p[0]+2][p[1]]==oPiece and b[p[0]+3][p[1]]==oPiece and b[p[0]+3][p[1]+1]==oPiece and b[p[0]+3][p[1]+2]==oPiece and b[p[0]+3][p[1]+3]==oPiece and b[p[0]+2][p[1]+3]==oPiece and b[p[0]+1][p[1]+3]==oPiece:
-            whichFormRemove=i
+        formToRemove += 1
+        if (board[p[0]][p[1]] == oPiece and 
+            board[p[0]][p[1]+1] == oPiece and
+            board[p[0]][p[1]+2] == oPiece and
+            board[p[0]][p[1]+3] == oPiece and
+            board[p[0]+1][p[1]] == oPiece and 
+            board[p[0]+2][p[1]] == oPiece and
+            board[p[0]+3][p[1]] == oPiece and 
+            board[p[0]+3][p[1]+1] == oPiece and
+            board[p[0]+3][p[1]+2] == oPiece and 
+            board[p[0]+3][p[1]+3] == oPiece and
+            board[p[0]+2][p[1]+3] == oPiece and
+            board[p[0]+1][p[1]+3] == oPiece):
+            
+            whichFormRemove = formToRemove
             break
     return whichFormRemove
-def removeBigCircle (b):
-    possibleBig=[[0,0],[0,1],[1,0],[1,1]]
-    p=possibleBig[whichFormRemove-1]
-    b[p[0]][p[1]]=blankSpot
-    b[p[0]][p[1]+1]=blankSpot
-    b[p[0]][p[1]+2]=blankSpot
-    b[p[0]][p[1]+3]=blankSpot
-    b[p[0]+1][p[1]]=blankSpot
-    b[p[0]+2][p[1]]=blankSpot
-    b[p[0]+3][p[1]]=blankSpot
-    b[p[0]+3][p[1]+1]=blankSpot
-    b[p[0]+3][p[1]+2]=blankSpot
-    b[p[0]+3][p[1]+3]=blankSpot
-    b[p[0]+2][p[1]+3]=blankSpot
-    b[p[0]+1][p[1]+3]=blankSpot
-    return b
 
-def isMidCircle(b):
-    #whichFormRemove: 0=none|1-9 left->right top->bottom
+def removeBigCircle (board):
+    """
+    The function takes a board as input and removes a big circle shape from the board.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        boardWithoutBigCircle: an matrix 5x5
+    """
+    # list with the positions on the board 
+    # of the left top 'O' piece in a big form of this piece
+    possibleBig = [[0,0],[0,1],[1,0],[1,1]]
+    
+    # indicates what is the position 
+    # of the left top 'O' piece in a big form of this piece
+    p = possibleBig[whichFormRemove-1]
+    
+    board[p[0]][p[1]] = blankSpot
+    board[p[0]][p[1]+1] = blankSpot
+    board[p[0]][p[1]+2] = blankSpot
+    board[p[0]][p[1]+3] = blankSpot
+    board[p[0]+1][p[1]] = blankSpot
+    board[p[0]+2][p[1]] = blankSpot
+    board[p[0]+3][p[1]] = blankSpot
+    board[p[0]+3][p[1]+1] = blankSpot
+    board[p[0]+3][p[1]+2] = blankSpot
+    board[p[0]+3][p[1]+3] = blankSpot
+    board[p[0]+2][p[1]+3] = blankSpot
+    board[p[0]+1][p[1]+3] = blankSpot
+    
+    return board
+
+def isMidCircle(board):
+    """
+    The function checks, from left to right and top to bottom, if there is a specific pattern 
+    of 'O' pieces in a 3x3 grid on the board and returns the number of the form to remove 
+    if the pattern is found.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        formToBeRemove: an integer
+    """
     global whichFormRemove
-    whichFormRemove=0
-    i=0
+    whichFormRemove = 0
+
+    # indicates with a number which form to remove
+    formToRemove = 0
+    # list with the positions on the board 
+    # of the left top 'O' piece in a mid form of this piece
     possibleMid=[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
+    
     for p in possibleMid:
-        i+=1
-        if b[p[0]][p[1]]==oPiece and b[p[0]][p[1]+1]==oPiece and b[p[0]][p[1]+2]==oPiece and b[p[0]+1][p[1]]==oPiece and b[p[0]+2][p[1]]==oPiece and b[p[0]+2][p[1]+1]==oPiece and b[p[0]+2][p[1]+2]==oPiece and b[p[0]+1][p[1]+2]==oPiece:
-            whichFormRemove=i
+        formToRemove += 1
+        if (board[p[0]][p[1]] == oPiece and 
+            board[p[0]][p[1]+1] == oPiece and
+            board[p[0]][p[1]+2] == oPiece and 
+            board[p[0]+1][p[1]] == oPiece and
+            board[p[0]+2][p[1]] == oPiece and 
+            board[p[0]+2][p[1]+1] == oPiece and 
+            board[p[0]+2][p[1]+2] == oPiece and 
+            board[p[0]+1][p[1]+2] == oPiece):
+            whichFormRemove = formToRemove
             break
     return whichFormRemove
-def removeMidCircle (b):
-    possibleMid=[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
-    p=possibleMid[whichFormRemove-1]
-    b[p[0]][p[1]]=blankSpot
-    b[p[0]][p[1]+1]=blankSpot
-    b[p[0]][p[1]+2]=blankSpot
-    b[p[0]+1][p[1]]=blankSpot
-    b[p[0]+2][p[1]]=blankSpot
-    b[p[0]+2][p[1]+1]=blankSpot
-    b[p[0]+2][p[1]+2]=blankSpot
-    b[p[0]+1][p[1]+2]=blankSpot
-    return b
 
-def isSmallCircle(b):
-    #whichFormRemove: 0=none|1-16 left->right top->bottom
+def removeMidCircle (board):
+    """
+    The function takes a board as input and removes a specific form of the 'O' piece
+    from the board.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        boardWithoutMidCircle: an matrix 5x5
+    """
+    # list with the positions on the board 
+    # of the left top 'O' piece in a mid form of this piece
+    possibleMid = [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
+    # indicates what is the position 
+    # of the left top 'O' piece in a mid form of this piece
+    p = possibleMid[whichFormRemove-1]
+    
+    board[p[0]][p[1]] = blankSpot
+    board[p[0]][p[1]+1] = blankSpot
+    board[p[0]][p[1]+2] = blankSpot
+    board[p[0]+1][p[1]] = blankSpot
+    board[p[0]+2][p[1]] = blankSpot
+    board[p[0]+2][p[1]+1] = blankSpot
+    board[p[0]+2][p[1]+2] = blankSpot
+    board[p[0]+1][p[1]+2] = blankSpot
+    
+    return board
+
+def isSmallCircle(board):
+    """
+    The function checks, from left to right and top to bottom, if there is a small circle formed 
+    by 'O' pieces in a given board and returns the number of the form to remove if found.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        formToBeRemove: an integer
+    """
     global whichFormRemove
-    whichFormRemove=0
-    i=0
-    possibleSmall=[[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]
+    whichFormRemove = 0
+    
+    # indicates with a number which form to remove
+    formToRemove = 0
+    # list with the positions on the board 
+    # of the left top 'O' piece in a small form of this piece
+    possibleSmall = [[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]
+    
     for p in possibleSmall:
-        i+=1
-        if b[p[0]][p[1]]==oPiece and b[p[0]+1][p[1]]==oPiece and b[p[0]][p[1]+1]==oPiece and b[p[0]+1][p[1]+1]==oPiece:
-            whichFormRemove=i
+        formToRemove+=1
+        if (board[p[0]][p[1]] == oPiece and 
+            board[p[0]+1][p[1]] == oPiece and 
+            board[p[0]][p[1]+1] == oPiece and
+            board[p[0]+1][p[1]+1] == oPiece):
+            whichFormRemove = formToRemove
             break
     return whichFormRemove
-def removeSmallCircle (b):
-    possibleSmall=[[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]
-    p=possibleSmall[whichFormRemove-1]
-    b[p[0]][p[1]]=blankSpot
-    b[p[0]+1][p[1]]=blankSpot
-    b[p[0]][p[1]+1]=blankSpot
-    b[p[0]+1][p[1]+1]=blankSpot
-    return b
+
+def removeSmallCircle (board):
+    """
+    The function takes a board as input and removes a small circle shape from the
+    board by replacing the corresponding positions with a blank spot.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        boardWithoutSmallCircle: an matrix 5x5
+    """
+    # list with the positions on the board 
+    # of the left top 'O' piece in a small form of this piece
+    possibleSmall = [[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]
+    # indicates what is the position 
+    # of the left top 'O' piece in a small form of this piece
+    p = possibleSmall[whichFormRemove-1]
+    
+    board[p[0]][p[1]] = blankSpot
+    board[p[0]+1][p[1]] = blankSpot
+    board[p[0]][p[1]+1] = blankSpot
+    board[p[0]+1][p[1]+1] = blankSpot
+    
+    return board
