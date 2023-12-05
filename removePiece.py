@@ -1,115 +1,277 @@
-minus="-"
-plus="+"
-x="x"
-o="o"
-blank=0
+# variables that represents
+# each piece on the board 
+minusPiece = "-"
+plusPiece = "+"
+xPiece = "X"
+oPiece = "O"
+# variable that represents 
+# a position without pieces 
+blankSpot = "_"
 
-whichFormRemove=0 #0=dont remove|1 or more is which form to remove in the respective piece type
-#b=board
-#l=line
-#c=column
+# variable that indicates which
+# form to remove for each piece type (+,-,X,O) 
+# 0 indicates that there is nothing to be removed 
+# higher than 0 indicates the form to remove in the respective piece type
+whichFormRemove = 0 
 
-
-def removeForms(b, piece, l, c): #returns [bWithAlterations,points]
-    b[l][c]=piece
-    if piece==minus:
-        return verifyMinus(b, l, c)
-    elif piece==plus:
-        return verifyPlus(b)
-    elif piece==x:
-        return verifyX(b)
-    elif piece==o:
-        return verifyCircle(b)
+def removeForms(board, piece, line, column): #returns [bWithAlterations,points]
+    """
+    The function places a piece on the board, at the position given by 
+    the line and column, and then verify if with that piece a shape was form,
+    removing that shape from the board.
+    
+    Arguments:
+        board: an matrix 5x5
+        piece: an char ('+','-','O','X')
+        line: an integer
+        column: an integer
+    
+    Returns:
+        boardPoints: [board, points] 
+    """
+    board[line][column] = piece
+    
+    if piece == minusPiece:
+        return verifyMinus(board, line, column)
+    elif piece == plusPiece:
+        return verifyPlus(board)
+    elif piece == xPiece:
+        return verifyX(board)
+    elif piece == oPiece:
+        return verifyCircle(board)
     else:
         print("Piece doesnt exist.\n")
-        return [b,0]
+        return [board,0]
 
+#---------------------------------------//----------------------------------------------- 
+# "-" piece 
 
-#/\/\/\/\/\/\/\/\/\/\/\/  "-"  \/\/\/\/\/\/\/\/\/\/\/\
-def verifyMinus(b, l, c):
-    points=0
-    numberOfMinus=1
-    if not c==0:
-        if b[l][c-1]==minus:
-            b[l][c-1]=blank
-            numberOfMinus+=1
-    if not c==4:
-        if b [l][c+1]==minus:
-            b[l][c+1]=blank
-            numberOfMinus+=1
-    if not numberOfMinus==1:
-        b[l][c]=blank
-        points+=2**numberOfMinus
-    return [b,points]
+def verifyMinus(board, line, column):
+    """
+    The function checks if there are adjacent minus pieces in a line in a given board and updates
+    the board accordingly, returning the updated board and the number of points earned.
+    
+    Arguments:
+        board: an matrix 5x5
+        line: an integer
+        column: an integer
+    
+    Returns:
+        boardPoints: [board, points] 
+    """
+    points = 0
+    numberOfMinus = 1
+    
+    if not column == 0:
+        if board[line][column-1] == minusPiece:
+            board[line][column-1] = blankSpot
+            numberOfMinus += 1
+            
+    if not column == 4:
+        if board [line][column+1] == minusPiece:
+            board[line][column+1] = blankSpot
+            numberOfMinus += 1
+            
+    if not numberOfMinus == 1:
+        board[line][column] = blankSpot
+        points += 2**numberOfMinus
+        
+    return [board,points]
 
+#---------------------------------------//----------------------------------------------- 
+# "+" piece 
 
-#/\/\/\/\/\/\/\/\/\/\/\/  "+"  \/\/\/\/\/\/\/\/\/\/\/\
-def verifyPlus(b):
-    points=0
-    if isBigPlus(b):
-        removeBigPlus(b)
-        points+=2**9
-    elif isSmallPlus(b):
-        removeSmallPlus(b)
-        points+=2**5
-    return [b,points]
+def verifyPlus(board):
+    """
+    The function checks if a given board has a big plus or a small plus shape, removes the
+    plus shape from the board, and returns the modified board along with the corresponding points
+    earned.
 
-def isBigPlus(b):
-    return (b[2][0]==plus and b[2][1]==plus and b[2][2]==plus and b[2][3]==plus and b[2][4]==plus and b[0][2]==plus and b[1][2]==plus and b[3][2]==plus and b[4][2]==plus)
-def removeBigPlus(b):
-    b[2]=[blank,blank,blank,blank,blank]
-    b[0][2]=blank
-    b[1][2]=blank
-    b[3][2]=blank
-    b[4][2]=blank
-    return b
+    Arguments:
+        board: an matrix 5x5
+    
+    Returns:
+        boardPoints: [board, points] 
+    """
+    points = 0
+    
+    if isBigPlus(board):
+        removeBigPlus(board)
+        points += 2**9
 
-def isSmallPlus(b):
-    #whichFormRemove: 0=none|1-9 left->right top->bottom
+    elif isSmallPlus(board):
+        removeSmallPlus(board)
+        points += 2**5
+        
+    return [board,points]
+
+def isBigPlus(board):
+    """
+    The function checks if a specific pattern (a big plus) is present on a given board.
+    
+    Arguments:
+        board: an matrix 5x5
+    
+    Returns:
+        haveBigPlus: an bool
+    """
+    return (board[2][0] == plusPiece and 
+            board[2][1] == plusPiece and 
+            board[2][2] == plusPiece and 
+            board[2][3] == plusPiece and 
+            board[2][4] == plusPiece and 
+            board[0][2] == plusPiece and 
+            board[1][2] == plusPiece and 
+            board[3][2] == plusPiece and 
+            board[4][2] == plusPiece)
+
+def removeBigPlus(board):
+    """
+    The function removes a big plus shape from a given board by replacing certain elements with a blank
+    spot.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        boardWithoutBigPlus: an matrix 5x5
+    """
+    board[2] = [blankSpot,blankSpot,blankSpot,blankSpot,blankSpot]
+    board[0][2] = blankSpot
+    board[1][2] = blankSpot
+    board[3][2] = blankSpot
+    board[4][2] = blankSpot
+    return board
+
+def isSmallPlus(board):
+    """
+    The function checks, from left to right and top to bottom, if there is a small plus form on the given 
+    board and returns the number of the form to remove if found.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        formToBeRemove: an integer
+    """
     global whichFormRemove
-    whichFormRemove=0
-    i=0
-    possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]  #REFERENCE TO THE MIDDLE PIECE
+    whichFormRemove = 0
+    
+    # indicates with a number which form to remove 
+    formToRemove = 0
+    
+    # list with the positions on the board 
+    # of the middle piece of the possible forms 
+    possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]  
+    
     for p in possibleSmall:
-        i+=1
-        if (b[p[0]][p[1]]==plus and b[p[0]+1][p[1]]==plus and b[p[0]-1][p[1]]==plus and b[p[0]][p[1]+1]==plus and b[p[0]][p[1]-1]==plus):
-            whichFormRemove=i
+        formToRemove += 1
+        
+        if (board[p[0]][p[1]] == plusPiece and 
+            board[p[0]+1][p[1]] == plusPiece and 
+            board[p[0]-1][p[1]] == plusPiece and 
+            board[p[0]][p[1]+1] == plusPiece and
+            board[p[0]][p[1]-1] == plusPiece):
+            
+            whichFormRemove = formToRemove
             break
+        
     return whichFormRemove
-def removeSmallPlus(b):
-    possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
-    p=possibleSmall[whichFormRemove-1]
-    b[p[0]][p[1]]=blank
-    b[p[0]+1][p[1]]=blank
-    b[p[0]-1][p[1]]=blank
-    b[p[0]][p[1]+1]=blank
-    b[p[0]][p[1]-1]=blank
-    return b
 
-#/\/\/\/\/\/\/\/\/\/\/\/  "x"  \/\/\/\/\/\/\/\/\/\/\/\
-def verifyX(b):
-    points=0
-    if isBigX(b):
-        removeBigX(b)
-        points+=2**9
-    elif isSmallX(b):
-        removeSmallX(b)
-        points+=2**5
-    return [b,points]
+def removeSmallPlus(board):
+    """
+    The function takes a board as input and removes a small plus shape from the board
+    by replacing the corresponding positions with a blank spot.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        boardWithoutSmallPuls: an matrix 5x5
+    """
+    # list with the positions on the board 
+    # of the middle piece of the possible forms 
+    possibleSmall = [[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
+    
+    # indicates what is the position 
+    # of the middle piece of the form to be removed
+    p = possibleSmall[whichFormRemove-1]
+    
+    board[p[0]][p[1]] = blankSpot
+    board[p[0]+1][p[1]] = blankSpot
+    board[p[0]-1][p[1]] = blankSpot
+    board[p[0]][p[1]+1] = blankSpot
+    board[p[0]][p[1]-1] = blankSpot
+    
+    return board
 
-def isBigX(b):
-    return (b[0][0]==x and b[1][1]==x and b[2][2]==x and b[3][3]==x and b[4][4]==x and b[0][4]==x and b[1][3]==x and b[3][1]==x and b[4][0]==x)
-def removeBigX(b):
-    b[0][0]=blank
-    b[1][1]=blank
-    b[2][2]=blank
-    b[3][3]=blank
-    b[4][4]=blank 
-    b[0][4]=blank
-    b[1][3]=blank
-    b[3][1]=blank
-    b[4][0]=blank
-    return b
+#---------------------------------------//----------------------------------------------- 
+# "X" piece 
+
+def verifyX(board):
+    """
+    The function checks if a given board contains a big X or a small X, removes the X from the
+    board, and returns the modified board along with the corresponding points earned.
+    
+    Arguments:
+        board: an matrix 5x5
+    
+    Returns:
+        boardPoints: [board, points] 
+    """
+    points = 0
+    
+    if isBigX(board):
+        removeBigX(board)
+        points += 2**9
+    elif isSmallX(board):
+        removeSmallX(board)
+        points += 2**5
+    
+    return [board,points]
+
+def isBigX(board):
+    """
+    The function checks if the board has a big X pattern consisting of xPiece.
+    
+    Arguments:
+        board: an matrix 5x5
+    
+    Returns:
+        haveBigX: an bool
+    """
+    return (board[0][0] == xPiece and 
+            board[1][1] == xPiece and 
+            board[2][2] == xPiece and 
+            board[3][3] == xPiece and 
+            board[4][4] == xPiece and 
+            board[0][4] == xPiece and 
+            board[1][3] == xPiece and 
+            board[3][1] == xPiece and 
+            board[4][0] == xPiece)
+    
+def removeBigX(board):
+    """
+    The function removes the "X" characters from specific positions on the board 
+    replacing it with blankSpots.
+    
+    Arguments:
+        board: an matrix 5x5
+        
+    Returns:
+        boardWithoutBigX: an matrix 5x5
+    """
+    board[0][0]=blankSpot
+    board[1][1]=blankSpot
+    board[2][2]=blankSpot
+    board[3][3]=blankSpot
+    board[4][4]=blankSpot 
+    board[0][4]=blankSpot
+    board[1][3]=blankSpot
+    board[3][1]=blankSpot
+    board[4][0]=blankSpot
+    
+    return board
 
 def isSmallX(b):
     #whichFormRemove: 0=none|1-9 left->right top->bottom
@@ -119,18 +281,19 @@ def isSmallX(b):
     possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]  #REFERENCE TO THE MIDDLE PIECE
     for p in possibleSmall:
         i+=1
-        if b[p[0]][p[1]]==x and b[p[0]-1][p[1]-1]==x and b[p[0]-1][p[1]+1]==x and b[p[0]+1][p[1]-1]==x and b[p[0]+1][p[1]+1]==x:
+        if b[p[0]][p[1]]==xPiece and b[p[0]-1][p[1]-1]==xPiece and b[p[0]-1][p[1]+1]==xPiece and b[p[0]+1][p[1]-1]==xPiece and b[p[0]+1][p[1]+1]==xPiece:
             whichFormRemove=i
             break
     return whichFormRemove
+
 def removeSmallX(b):
     possibleSmall=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
     p=possibleSmall[whichFormRemove-1]
-    b[p[0]][p[1]]=blank
-    b[p[0]-1][p[1]-1]=blank
-    b[p[0]-1][p[1]+1]=blank
-    b[p[0]+1][p[1]-1]=blank
-    b[p[0]+1][p[1]+1]=blank
+    b[p[0]][p[1]]=blankSpot
+    b[p[0]-1][p[1]-1]=blankSpot
+    b[p[0]-1][p[1]+1]=blankSpot
+    b[p[0]+1][p[1]-1]=blankSpot
+    b[p[0]+1][p[1]+1]=blankSpot
     return b
 #/\/\/\/\/\/\/\/\/\/\/\/  "o"  \/\/\/\/\/\/\/\/\/\/\/\
 def verifyCircle(b):
@@ -150,16 +313,16 @@ def verifyCircle(b):
     return [b,points]
 
 def isMegaCircle(b):
-    return (b[0][0]==o and b[0][1]==o and b[0][2]==o and b[0][3]==o and b[0][4]==o and b[1][0]==o and b[2][0]==o and b[3][0]==o and b[4][0]==o and b[4][1]==o and b[4][2]==o and b[4][3]==o and b[4][4]==o and b[3][4]==o and b[2][4]==o and b[1][4]==o)
+    return (b[0][0]==oPiece and b[0][1]==oPiece and b[0][2]==oPiece and b[0][3]==oPiece and b[0][4]==oPiece and b[1][0]==oPiece and b[2][0]==oPiece and b[3][0]==oPiece and b[4][0]==oPiece and b[4][1]==oPiece and b[4][2]==oPiece and b[4][3]==oPiece and b[4][4]==oPiece and b[3][4]==oPiece and b[2][4]==oPiece and b[1][4]==oPiece)
 def removeMegaCircle(b):
-    b[0]=[blank,blank,blank,blank,blank]
-    b[4]=[blank,blank,blank,blank,blank]
-    b[1][0]=blank
-    b[2][0]=blank
-    b[3][0]=blank
-    b[1][4]=blank
-    b[2][4]=blank
-    b[3][4]=blank
+    b[0]=[blankSpot,blankSpot,blankSpot,blankSpot,blankSpot]
+    b[4]=[blankSpot,blankSpot,blankSpot,blankSpot,blankSpot]
+    b[1][0]=blankSpot
+    b[2][0]=blankSpot
+    b[3][0]=blankSpot
+    b[1][4]=blankSpot
+    b[2][4]=blankSpot
+    b[3][4]=blankSpot
     return b
 
 def isBigCircle(b):
@@ -170,25 +333,25 @@ def isBigCircle(b):
     possibleBig=[[0,0],[0,1],[1,0],[1,1]]
     for p in possibleBig:
         i+=1
-        if b[p[0]][p[1]]==o and b[p[0]][p[1]+1]==o and b[p[0]][p[1]+2]==o and b[p[0]][p[1]+3]==o and b[p[0]+1][p[1]]==o and b[p[0]+2][p[1]]==o and b[p[0]+3][p[1]]==o and b[p[0]+3][p[1]+1]==o and b[p[0]+3][p[1]+2]==o and b[p[0]+3][p[1]+3]==o and b[p[0]+2][p[1]+3]==o and b[p[0]+1][p[1]+3]==o:
+        if b[p[0]][p[1]]==oPiece and b[p[0]][p[1]+1]==oPiece and b[p[0]][p[1]+2]==oPiece and b[p[0]][p[1]+3]==oPiece and b[p[0]+1][p[1]]==oPiece and b[p[0]+2][p[1]]==oPiece and b[p[0]+3][p[1]]==oPiece and b[p[0]+3][p[1]+1]==oPiece and b[p[0]+3][p[1]+2]==oPiece and b[p[0]+3][p[1]+3]==oPiece and b[p[0]+2][p[1]+3]==oPiece and b[p[0]+1][p[1]+3]==oPiece:
             whichFormRemove=i
             break
     return whichFormRemove
 def removeBigCircle (b):
     possibleBig=[[0,0],[0,1],[1,0],[1,1]]
     p=possibleBig[whichFormRemove-1]
-    b[p[0]][p[1]]=blank
-    b[p[0]][p[1]+1]=blank
-    b[p[0]][p[1]+2]=blank
-    b[p[0]][p[1]+3]=blank
-    b[p[0]+1][p[1]]=blank
-    b[p[0]+2][p[1]]=blank
-    b[p[0]+3][p[1]]=blank
-    b[p[0]+3][p[1]+1]=blank
-    b[p[0]+3][p[1]+2]=blank
-    b[p[0]+3][p[1]+3]=blank
-    b[p[0]+2][p[1]+3]=blank
-    b[p[0]+1][p[1]+3]=blank
+    b[p[0]][p[1]]=blankSpot
+    b[p[0]][p[1]+1]=blankSpot
+    b[p[0]][p[1]+2]=blankSpot
+    b[p[0]][p[1]+3]=blankSpot
+    b[p[0]+1][p[1]]=blankSpot
+    b[p[0]+2][p[1]]=blankSpot
+    b[p[0]+3][p[1]]=blankSpot
+    b[p[0]+3][p[1]+1]=blankSpot
+    b[p[0]+3][p[1]+2]=blankSpot
+    b[p[0]+3][p[1]+3]=blankSpot
+    b[p[0]+2][p[1]+3]=blankSpot
+    b[p[0]+1][p[1]+3]=blankSpot
     return b
 
 def isMidCircle(b):
@@ -199,21 +362,21 @@ def isMidCircle(b):
     possibleMid=[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
     for p in possibleMid:
         i+=1
-        if b[p[0]][p[1]]==o and b[p[0]][p[1]+1]==o and b[p[0]][p[1]+2]==o and b[p[0]+1][p[1]]==o and b[p[0]+2][p[1]]==o and b[p[0]+2][p[1]+1]==o and b[p[0]+2][p[1]+2]==o and b[p[0]+1][p[1]+2]==o:
+        if b[p[0]][p[1]]==oPiece and b[p[0]][p[1]+1]==oPiece and b[p[0]][p[1]+2]==oPiece and b[p[0]+1][p[1]]==oPiece and b[p[0]+2][p[1]]==oPiece and b[p[0]+2][p[1]+1]==oPiece and b[p[0]+2][p[1]+2]==oPiece and b[p[0]+1][p[1]+2]==oPiece:
             whichFormRemove=i
             break
     return whichFormRemove
 def removeMidCircle (b):
     possibleMid=[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
     p=possibleMid[whichFormRemove-1]
-    b[p[0]][p[1]]=blank
-    b[p[0]][p[1]+1]=blank
-    b[p[0]][p[1]+2]=blank
-    b[p[0]+1][p[1]]=blank
-    b[p[0]+2][p[1]]=blank
-    b[p[0]+2][p[1]+1]=blank
-    b[p[0]+2][p[1]+2]=blank
-    b[p[0]+1][p[1]+2]=blank
+    b[p[0]][p[1]]=blankSpot
+    b[p[0]][p[1]+1]=blankSpot
+    b[p[0]][p[1]+2]=blankSpot
+    b[p[0]+1][p[1]]=blankSpot
+    b[p[0]+2][p[1]]=blankSpot
+    b[p[0]+2][p[1]+1]=blankSpot
+    b[p[0]+2][p[1]+2]=blankSpot
+    b[p[0]+1][p[1]+2]=blankSpot
     return b
 
 def isSmallCircle(b):
@@ -224,15 +387,15 @@ def isSmallCircle(b):
     possibleSmall=[[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]
     for p in possibleSmall:
         i+=1
-        if b[p[0]][p[1]]==o and b[p[0]+1][p[1]]==o and b[p[0]][p[1]+1]==o and b[p[0]+1][p[1]+1]==o:
+        if b[p[0]][p[1]]==oPiece and b[p[0]+1][p[1]]==oPiece and b[p[0]][p[1]+1]==oPiece and b[p[0]+1][p[1]+1]==oPiece:
             whichFormRemove=i
             break
     return whichFormRemove
 def removeSmallCircle (b):
     possibleSmall=[[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]
     p=possibleSmall[whichFormRemove-1]
-    b[p[0]][p[1]]=blank
-    b[p[0]+1][p[1]]=blank
-    b[p[0]][p[1]+1]=blank
-    b[p[0]+1][p[1]+1]=blank
+    b[p[0]][p[1]]=blankSpot
+    b[p[0]+1][p[1]]=blankSpot
+    b[p[0]][p[1]+1]=blankSpot
+    b[p[0]+1][p[1]+1]=blankSpot
     return b
