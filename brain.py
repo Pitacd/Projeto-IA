@@ -94,8 +94,9 @@ def choosePosition():
     Returns:
         position: (line, column)
     """
-    positionIndex = randint(0, len(listPossiblePositions) - 1)
-    position = listPossiblePositions.pop(positionIndex)
+    
+    # positionIndex = randint(0, len(listPossiblePositions) - 1)
+    position = listPossiblePositions.pop(0)
     return position
 
 def updateListOfPossiblePositions():
