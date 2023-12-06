@@ -83,8 +83,4 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
 
 print(points) 
 
-ev3.screen.clear()
-ev3.screen.draw_text(10, 20,"Points")
-ev3.screen.draw_text(10, 20,str(points))
-wait(5000)
 ev3.speaker.beep()
