@@ -94,6 +94,15 @@ def choosePosition():
     Returns:
         position: (line, column)
     """
-    positionIndex = randint(0, len(listPossiblePositions) - 1)
-    position = listPossiblePositions.pop(positionIndex)
+    
+    # positionIndex = randint(0, len(listPossiblePositions) - 1)
+    position = listPossiblePositions.pop(0)
     return position
+
+def updateListOfPossiblePositions():
+    list = []
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if(board[i][j] == '_'):
+                list += (i, j)
+    listPossiblePositions = list
