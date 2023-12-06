@@ -23,7 +23,7 @@ rotationMotor = Motor(Port.B)
 
 # Sensors of the robot
 colorSensor = ColorSensor(Port.S1)
-ultrasonSensor = UltrasonicSensor(Port.S2)
+ultrasoundSensor = UltrasonicSensor(Port.S2)
 
 # Robot
 robot = DriveBase(leftMotor, rightMotor, 56, 132) 
@@ -79,7 +79,7 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
     putPieceOnTheBoard(robot, rotationMotor)
 
     # return to the initial position
-    goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
+    goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
 
 print(points) 
 
