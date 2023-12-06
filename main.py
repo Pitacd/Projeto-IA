@@ -9,6 +9,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 #Brain and Movement of the Robot for the Game
 import brain
 from movement import *
+from removePiece import *
 
 # Create your objects here.
 ev3 = EV3Brick()
@@ -25,8 +26,11 @@ colorSensor = ColorSensor(Port.S1)
 ultrasonSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 56, 129) 
-robot.settings(150, 50, 150, 100)
+robot = DriveBase(leftMotor, rightMotor, 56, 132) 
+robot.settings(150, 100, 150, 100)
+
+# Points
+points = 0
 
 # Functions
 brain.readAllColorOfPieces(ev3, colorSensor)
@@ -58,7 +62,11 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
     # removing it from there
     pieceColor = brain.listPiecesOutside.pop(0)
     pieceSymbol = brain.mapColorToSymbol.get(pieceColor)
-    brain.board[line][column] = pieceSymbol
+    
+    (board, pointsAcquired) = removeForms(brain.board, pieceSymbol, line, column)
+    brain.board = board
+    points += pointsAcquired 
+    
 
     # print the board on the console
     print(brain.board[0])
@@ -73,4 +81,10 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
     # return to the initial position
     goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
 
+print(points) 
+
+ev3.screen.clear()
+ev3.screen.draw_text(10, 20,"Points")
+ev3.screen.draw_text(10, 20,str(points))
+wait(5000)
 ev3.speaker.beep()
