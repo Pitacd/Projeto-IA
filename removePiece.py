@@ -32,16 +32,12 @@ def removeForms(board, piece, line, column): #returns [bWithAlterations,points]
     board[line][column] = piece
     
     if piece == minusPiece:
-        print("Removed shape -")
         return verifyMinus(board, line, column)
     elif piece == plusPiece:
-        print("Removed shape +")
         return verifyPlus(board)
     elif piece == xPiece:
-        print("Removed shape X")
         return verifyX(board)
     elif piece == oPiece:
-        print("Removed shape O")
         return verifyCircle(board)
     else:
         print("Piece doesnt exist")
