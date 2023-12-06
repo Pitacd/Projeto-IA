@@ -26,7 +26,7 @@ colorSensor = ColorSensor(Port.S1)
 ultrasoundSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 56, 132) 
+robot = DriveBase(leftMotor, rightMotor, 56, 133) 
 robot.settings(150, 100, 150, 100)
 
 # Points
@@ -76,11 +76,7 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
     points += pointsAcquired
 
     # print the board on the console
-    print(brain.board[0])
-    print(brain.board[1])
-    print(brain.board[2])
-    print(brain.board[3])
-    print(brain.board[4])
+    brain.showBoard()
 
     # put the piece on the board
     putPieceOnTheBoard(robot, rotationMotor)
