@@ -63,10 +63,17 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
     pieceColor = brain.listPiecesOutside.pop(0)
     pieceSymbol = brain.mapColorToSymbol.get(pieceColor)
     
+    # check for full shapes in the board, remove them and get the acquired points 
     (board, pointsAcquired) = removeForms(brain.board, pieceSymbol, line, column)
     brain.board = board
-    points += pointsAcquired 
-    
+
+    # if points were made, shapes were removed  
+    # in that case, update the possible positions on the board
+    if (pointsAcquired > 0):
+        brain.updateListOfPossiblePositions()
+
+    # update score 
+    points += pointsAcquired
 
     # print the board on the console
     print(brain.board[0])
