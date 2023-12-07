@@ -72,6 +72,5 @@ def goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor):
     wait(200)
     robot.turn(-90)
     wait(100)
-    robot.straight(ultrasonSensor.distance() - 20) # change if box moved from the tests
-    wait(200)
+    robot.straight(ultrasonSensor.distance() - 40) # change if box moved from the tests
     robot.turn(-90)

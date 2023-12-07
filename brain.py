@@ -44,7 +44,7 @@ def readColorOfPiece(ev3, colorSensor):
     if colorPiece in listColorOfPieces:
         # informs that the color exist 
         # and it should be more pieces to get
-        listPiecesOutside.insert(0, colorPiece)
+        listPiecesOutside.append(colorPiece)
         # displays that the color has been read on the 
         # color sensor on the ev3 and number of colors read it. 
         ev3.screen.draw_text(10, 20, "COLOR READ IT")
@@ -94,6 +94,29 @@ def choosePosition():
     Returns:
         position: (line, column)
     """
-    positionIndex = randint(0, len(listPossiblePositions) - 1)
-    position = listPossiblePositions.pop(positionIndex)
+    
+    # positionIndex = randint(0, len(listPossiblePositions) - 1)
+    position = listPossiblePositions.pop(0)
     return position
+
+def updateListOfPossiblePositions():
+    """
+    The function updates a list of possible positions on a board where the value is equal to '_'.
+    """
+    global listPossiblePositions
+    listPossiblePositions = []
+    
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if(board[i][j] == '_'):
+                listPossiblePositions += [(i, j)]
+
+def showBoard():
+    """
+    The function prints the current state of the board in a formatted way.
+    """
+    for line in board: 
+        strLine = ""
+        for column in line:
+            strLine += column + " | "
+        print(strLine)

@@ -9,6 +9,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 #Brain and Movement of the Robot for the Game
 import brain
 from movement import *
+from removePiece import *
 
 # Create your objects here.
 ev3 = EV3Brick()
@@ -22,11 +23,14 @@ rotationMotor = Motor(Port.B)
 
 # Sensors of the robot
 colorSensor = ColorSensor(Port.S1)
-ultrasonSensor = UltrasonicSensor(Port.S2)
+ultrasoundSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 56, 129) 
-robot.settings(150, 50, 150, 100)
+robot = DriveBase(leftMotor, rightMotor, 56, 133) 
+robot.settings(150, 100, 150, 100)
+
+# Points
+points = 0
 
 # Functions
 brain.readAllColorOfPieces(ev3, colorSensor)
@@ -58,19 +62,28 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
     # removing it from there
     pieceColor = brain.listPiecesOutside.pop(0)
     pieceSymbol = brain.mapColorToSymbol.get(pieceColor)
-    brain.board[line][column] = pieceSymbol
+    
+    # check for full shapes in the board, remove them and get the acquired points 
+    (board, pointsAcquired) = removeForms(brain.board, pieceSymbol, line, column)
+    brain.board = board
+
+    # if points were made, shapes were removed  
+    # in that case, update the possible positions on the board
+    if (pointsAcquired > 0):
+        brain.updateListOfPossiblePositions()
+
+    # update score 
+    points += pointsAcquired
 
     # print the board on the console
-    print(brain.board[0])
-    print(brain.board[1])
-    print(brain.board[2])
-    print(brain.board[3])
-    print(brain.board[4])
+    brain.showBoard()
 
     # put the piece on the board
     putPieceOnTheBoard(robot, rotationMotor)
 
     # return to the initial position
-    goBackToInitialPosition(distanceToComeBack, robot, ultrasonSensor)
+    goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
+
+print(points) 
 
 ev3.speaker.beep()
