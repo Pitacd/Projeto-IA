@@ -1,7 +1,7 @@
 from pybricks.parameters import Color, Button
 from pybricks.tools import wait
 
-from random import randint
+#from random import randint
 
 # List that contains the color of the
 # pieces outside of the board
@@ -120,3 +120,5 @@ def showBoard():
         for column in line:
             strLine += column + " | "
         print(strLine)
+        
+    print("----------------------")
