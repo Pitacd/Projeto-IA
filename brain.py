@@ -39,11 +39,13 @@ def readColorOfPiece(ev3, colorSensor):
         ev3: an EV3brick
         colorSensor:  an ColorSensor
     """
-    colorPiece = colorSensor.color() # stores the color read it by the robot in this instance
+    # stores the color read it by the robot in this instance
+    colorPiece = colorSensor.color() 
+    
     ev3.screen.clear() 
     if colorPiece in listColorOfPieces:
-        # informs that the color exist 
-        # and it should be more pieces to get
+        # puts the read piece in the 
+        # end of the listPiecesOutside
         listPiecesOutside.append(colorPiece)
         # displays that the color has been read on the 
         # color sensor on the ev3 and number of colors read it. 
@@ -80,6 +82,8 @@ def giveTheRobotThePiece(ev3, rotationMotor):
     """
     rotationMotor.run_until_stalled(-100)
     ev3.screen.clear() 
+    # displays in the screen of the ev3 
+    # the color of the piece to be given
     ev3.screen.draw_text(5, 20, "PIECE COLOR")
     ev3.screen.draw_text(10, ev3.screen.height/2, listPiecesOutside[0])
     while Button.CENTER not in ev3.buttons.pressed():
