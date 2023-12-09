@@ -47,8 +47,6 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
 
     # choose the next position 
     (line, column) = brain.choosePosition()
-    print("The line is: " + str(line))
-    print("The column is: " + str(column))
     
     # go to the next board position
     goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
@@ -83,6 +81,11 @@ while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
 
     # return to the initial position
     goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
+
+piecesOnBoard = 25 - len(brain.listPossiblePositions)
+piecesOutsideBoard = len(brain.listPiecesOutside)
+
+points -= 2**(piecesOnBoard + piecesOutsideBoard)
 
 print(points) 
 
