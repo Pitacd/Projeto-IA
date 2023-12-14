@@ -26,7 +26,7 @@ colorSensor = ColorSensor(Port.S1)
 ultrasoundSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 56, 133) 
+robot = DriveBase(leftMotor, rightMotor, 56, 126) 
 robot.settings(150, 100, 150, 100)
 
 # Points
