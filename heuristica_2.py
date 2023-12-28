@@ -13,11 +13,18 @@ class Tabuleiro:
         for linha in range(5):
             for coluna in range(5):
                self.tab.append(Position((linha,coluna),"_",(0,0,0,0)))
-               
+
+    def calcular_pontuacao(self):
+        pontuacao_total = 0
+        for peca in self.tab:
+            if peca.piece == "_":
+                pontuacao_total += max(peca.pon)*2 - sum(peca.pon)
+        return pontuacao_total
+
     def __str__(self):
         tab = ""
         for Position in self.tab:
-            tab += str(Position)
+            tab += str(Position) + "\n"
         return tab
     
 t1= Tabuleiro()
@@ -25,15 +32,4 @@ t1= Tabuleiro()
 t1.criarTabuleiroInicial()
 
 print(t1)
-
-def calcular_pontuacao(Tabuleiro):
-    pontuacao_total = 0
-     for linha in tabuleiro:
-       for peca in linha:
-           if peca == 0:
-               pontuacao_total +=1
-               pontuacao_maxima = len(Tabuleiro) * len(Tabuleiro[0])
-               pontos_restantes = pontuacao_total - pontuacao_maxima
-               return pontos_restantes
-           resultado = calcular_pontuacao(Tabuleiro)
-           print("Pontos restantes depois de subtrair a pontuação máxima:",resultado)
+print(t1.calcular_pontuacao())
