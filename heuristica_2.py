@@ -1,35 +1,65 @@
 class Position:
-    def __init__(self,pos,piece,pon):
-        self.pos = pos
-        self.piece = piece
-        self.pon = pon
+    def __init__(self,position):
+        """
+        The function initializes an object with a position, a default piece, "_", and a default 
+        dictionary of points of each piece in the position, that will be 0 for each one initially.
+        
+        Arguments:
+            position: (line, column)
+        """
+        self.position = position
+        self.piece = "_"
+        self.points = {"X" : 0, "O" : 0, "+" : 0, "-" : 0}
+    
     def __str__(self):
-        return f"{self.pos}{self.piece}{self.pon}"
+        """
+        The function returns a string representation of an object, including its position, piece, and
+        points.
+        
+        Returns:
+            A string representation of the object, with the position, piece, and points of the object.
+        """
+        return f"Position: {self.position} Piece: {self.piece} Points: {self.points}"
 
-class Tabuleiro:
+class Board:
     def __init__(self):
-        self.tab = []
-    def criarTabuleiroInicial(self):
-        for linha in range(5):
-            for coluna in range(5):
-               self.tab.append(Position((linha,coluna),"_",(0,0,0,0)))
+        """
+        The constructor for the class and initializes a board that is empty.
+        """
+        self.board = []
+        
+    def createInitialBoard(self):
+        """
+        The function creates an initial board by appending positions to a list.
+        """
+        for line in range(5):
+            for column in range(5):
+               self.board.append(Position((line,column)))
 
-    def calcular_pontuacao(self):
-        pontuacao_total = 0
-        for peca in self.tab:
-            if peca.piece == "_":
-                pontuacao_total += max(peca.pon)*2 - sum(peca.pon)
-        return pontuacao_total
+    def boardPoints(self):
+        """
+        The function calculates the total points on a game board based on points on each position that are empty
+        subtracting the higher value by the rest of the points.
+        
+        Returns:
+            totalPoints: an integer
+        """
+        totalPoints = 0
+        for position in self.board:
+            if position.piece == "_":
+                listPointsInPosition = position.points.values()
+                totalPoints += max(listPointsInPosition)*2 - sum(listPointsInPosition)
+        return totalPoints
 
     def __str__(self):
         tab = ""
-        for Position in self.tab:
+        for Position in self.board:
             tab += str(Position) + "\n"
         return tab
     
-t1= Tabuleiro()
+t1= Board()
 
-t1.criarTabuleiroInicial()
+t1.createInitialBoard()
 
 print(t1)
-print(t1.calcular_pontuacao())
+print(t1.boardPoints())
