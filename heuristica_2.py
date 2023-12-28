@@ -52,10 +52,10 @@ class Board:
         return totalPoints
 
     def __str__(self):
-        tab = ""
+        board = ""
         for Position in self.board:
-            tab += str(Position) + "\n"
-        return tab
+            board += str(Position) + "\n"
+        return board
     
 t1= Board()
 
