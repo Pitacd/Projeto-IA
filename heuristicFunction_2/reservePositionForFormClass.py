@@ -95,5 +95,3 @@ class reservePositionsOnBoard:
                 self.possibleFormToDoInTheBoard(board, listPossibleSetReservation, self.listPossibleCircleReservationMegaShape)
                         
         return listPossibleSetReservation
-    
-   
