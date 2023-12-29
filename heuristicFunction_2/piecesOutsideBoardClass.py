@@ -12,3 +12,6 @@ class PiecesOutSide:
         pieceToBePut = self.listPiecesOutside.pop()
         self.numberOfEachPiece[pieceToBePut] -= 1
         return pieceToBePut
+    
+    def getPieceToPutOnBoard(self):
+        return self.listPiecesOutside[0]
