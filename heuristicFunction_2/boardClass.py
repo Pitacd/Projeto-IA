@@ -15,6 +15,9 @@ class Board:
             for column in range(5):
                self.board.append(Position((line,column)))
 
+    def positionOnBoard(self, position):
+        return position[0] * 5 + position[1]
+    
     def putPieceOnTheBoard(self, position, piece):
         """
         The function puts a piece on the board at a specified position and resets its points.
@@ -23,7 +26,7 @@ class Board:
             position: (line, column)
             piece: a char
         """
-        indexBoard = position[0] * 5 + position[1]
+        indexBoard = self.positionOnBoard(position)
         self.board[indexBoard].piece = piece
 
     def boardValueByTheHeuristic2(self):
@@ -45,7 +48,8 @@ class Board:
         
         return positionsReserved - positionsSuperpose
         
-
+    # TODO make the cost function in the class listPiecesOutside that is the number of pieces put on the board
+    
     def __str__(self):
         board = ""
         for Position in self.board:
