@@ -65,3 +65,7 @@ class Board:
     
 #TODO add a tree class and node class to make the IA 
 #TODO make a function that by the given position where it will put the piece gives all the possible shapes to make in that position
+#TODO make a function to put the piece in a position with a value higher than 0 for that type 
+#TODO make a function to increase the position points for each piece put in that shape
+#TODO make a function to clean the points in the positions with the pieces removed
+#TODO make a function to see if there is a reserved position to that type of piece, case there is put it there if not try to create a new shape, if empty put in an empty spot 
