@@ -1,6 +1,6 @@
 class PiecesOutSide:
     
-    def __init__(self, listPiecesOutside):
+    def __init__(self, listPiecesOutside, numberOfPiecesRemoved = 0, numberOfEachPiece = (0,0,0,0)):
         """
         The function initializes an object with a list of pieces outside and a dictionary to keep track
         of the number of each piece.
@@ -10,9 +10,8 @@ class PiecesOutSide:
             characters: "X", "O", "-", "+") that are outside of the game board.
         """
         self.listPiecesOutside = listPiecesOutside
-        self.numberOfEachPiece = {"X": 0, "O": 0, "-": 0, "+": 0}
-        
-        self.initialPiecesOutSide()
+        self.numberOfPiecesRemoved = numberOfPiecesRemoved
+        self.numberOfEachPiece = {"X": numberOfEachPiece[0], "O": numberOfEachPiece[1], "-": numberOfEachPiece[2], "+": numberOfEachPiece[3]}
         
     def initialPiecesOutSide(self):
         """
@@ -31,6 +30,7 @@ class PiecesOutSide:
         """
         pieceToBePut = self.listPiecesOutside.pop()
         self.numberOfEachPiece[pieceToBePut] -= 1
+        self.numberOfPiecesRemoved += 1
         return pieceToBePut
     
     def getPieceToPutOnBoard(self):
@@ -41,3 +41,12 @@ class PiecesOutSide:
             pieceToPutOnBoard: a char
         """
         return self.listPiecesOutside[0]
+    
+    def listOutsideCostValue(self):
+        """
+        The function returns the value of the numberOfPiecesRemoved
+
+        Arguments:
+            numberOfPiecesRemoved: an integer
+        """
+        return self.numberOfPiecesRemoved
