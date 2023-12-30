@@ -16,6 +16,15 @@ class Board:
                self.board.append(Position((line,column)))
 
     def positionOnBoard(self, position):
+        """
+        The function calculates the position on a board based on the given position coordinates.
+        
+        Arguments:
+            position : (line,column)
+        
+        Returns:
+            An integer 
+        """
         return position[0] * 5 + position[1]
     
     def putPieceOnTheBoard(self, position, piece):
@@ -48,8 +57,6 @@ class Board:
         
         return positionsReserved - positionsSuperpose
         
-    # TODO make the cost function in the class listPiecesOutside that is the number of pieces put on the board
-    
     def __str__(self):
         board = ""
         for Position in self.board:
