@@ -62,3 +62,6 @@ class Board:
         for Position in self.board:
             board += str(Position) + "\n"
         return board
+    
+#TODO add a tree class and node class to make the IA 
+#TODO make a function that by the given position where it will put the piece gives all the possible shapes to make in that position
