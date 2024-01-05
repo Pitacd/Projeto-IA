@@ -1,6 +1,6 @@
 class PiecesOutSide:
     
-    def __init__(self, listPiecesOutside, numberOfPiecesRemoved = 0, numberOfEachPiece = (0,0,0,0)):
+    def __init__(self, listPiecesOutside, numberOfPiecesRemoved = 0):
         """
         The function initializes an object with a list of pieces outside and a dictionary to keep track
         of the number of each piece.
@@ -11,15 +11,7 @@ class PiecesOutSide:
         """
         self.listPiecesOutside = listPiecesOutside
         self.numberOfPiecesRemoved = numberOfPiecesRemoved
-        self.numberOfEachPiece = {"X": numberOfEachPiece[0], "O": numberOfEachPiece[1], "-": numberOfEachPiece[2], "+": numberOfEachPiece[3]}
         
-    def initialPiecesOutSide(self):
-        """
-        The function increments the count of each piece in the list of pieces outside.
-        """
-        for piece in self.listPiecesOutside:
-            self.numberOfEachPiece[piece] += 1
-    
     def pieceToPutOnBoard(self):
         """
         The function removes a piece from a list of pieces outside the board,
