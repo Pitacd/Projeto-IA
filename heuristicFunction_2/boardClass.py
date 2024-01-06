@@ -32,6 +32,20 @@ class Board:
         
         return matrixBoard
     
+    def emptyPositions(self):
+        """
+        The function returns a list of positions on the board that are empty.
+        
+        Returns:
+            listEmptyPositions: a list of tuples, (line, column)
+        """
+        listEmptyPositions = [] 
+        for position in self.board:
+            if position.isEmpty():
+                listEmptyPositions.append(position.position)
+        
+        return listEmptyPositions
+    
     def positionOnBoard(self, position):
         """
         The function calculates the position on a board based on the given position coordinates.
@@ -122,7 +136,7 @@ class Board:
         listReservationPiece = []
         for position in self.board:
                 if position.points[piece] > 0:
-                    if position.positionIsEmpty():
+                    if position.isEmpty():
                         listReservationPiece.append(position.position)
         return listReservationPiece 
 
