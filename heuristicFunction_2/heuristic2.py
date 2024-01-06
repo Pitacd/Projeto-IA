@@ -1,8 +1,8 @@
 from boardClass import *
 from piecesOutsideBoardClass import *
 from reservePositionBoard import *
-from brain import listPiecesOutside
-from removePiece import removeForms
+from ..brain import listPiecesOutside
+from ..removePiece import removeForms
 
 class Node:
     def __init__(self, parent, board, piecesOutside, piece = '_', position = None):
@@ -12,8 +12,6 @@ class Node:
         self.heuristicValue = board.diffReservedPositLapReservedPosit()
         self.positionPlaced = position
         self.parent = parent
-
-
 
 # create the frontier
 frontier = []
