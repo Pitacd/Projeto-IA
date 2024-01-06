@@ -109,22 +109,23 @@ class Board:
             for position in pattern:
                     self.board[self.positionOnBoard(position)].points[piece] = 1
     
-    def verifyReservationForPiece(self, piece):
+    def reservationForPiece(self, piece):
         """
-        The function checks if a given piece has a reservation on the board.
+        The function returns a list of positions on the board where a given piece
+        can be reserved.
         
         Arguments:
             piece: a char
             
         Returns:
-            pieceHasReservation: boolean
+            listReservationPiece: a list of tuples
         """
-        pieceHasReservation = False
+        listReservationPiece = []
         for position in self.board:
                 if position.points[piece] > 0:
-                    pieceHasReservation = True
-                    break
-        return pieceHasReservation
+                    if position.positionIsEmpty():
+                        listReservationPiece.append(position.position)
+        return listReservationPiece
                 
     
     def __str__(self):
@@ -136,7 +137,7 @@ class Board:
 board = Board()
 board.createInitialBoard()
 board.putPointsOnThePositions('-', [(0,1),(0,2),(0,3)])
-print(board)
+print(board.reservationForPiece('-'))
     
 #TODO add a tree class and node class to make the IA 
 #TODO make a function to put the piece in a position with a value higher than 0 for that type 
