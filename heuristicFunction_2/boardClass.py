@@ -151,7 +151,10 @@ class Board:
         Returns:
             valuePositionForPiece: an integer
         """
-        return self.board[self.positionOnBoard(position)].valuePositionForPiece(piece)
+        if piece == '_':
+            return 0
+        else:
+            return self.board[self.positionOnBoard(position)].valuePositionForPiece(piece)
     
     def diffReservedPositLapReservedPosit(self):
         """
