@@ -165,7 +165,16 @@ class Board:
             board += str(Position) + "\n"
         return board
 
+# board = Board()
+# board.createInitialBoard()
 
-    
+# board.putPointsOnThePositions('-', ((0,1),(0,2)))
+
+# for i in board.reservationForPiece('-'):
+#     board.putPieceOnTheBoard(i,'-')
+#     print(board)
+
+# board.removePieceFormBoard('-',[["_", "_", "_", "_", "_"],["_", "_", "_", "_", "_"],["_", "_", "_", "_", "_"],["_", "_", "_", "_", "_"],["_", "_", "_", "_", "_"]])
+# print(board)
 #TODO add a tree class and node class to make the IA 
 #TODO make a function to see if there is a reserved position to that type of piece, case there is put it there if not try to create a new shape, if empty put in an empty spot 
