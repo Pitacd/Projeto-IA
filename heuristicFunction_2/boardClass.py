@@ -74,17 +74,10 @@ class Board:
         
         return positionsReserved - positionsSuperpose
     
-    def putPointsOnThePositions(self, piece: chr, pattern: list[tuple[int]]):
+    # def putPointsOnThePositions(self, piece: chr, pattern: list[tuple[int]]):
         
-        patternPosition = 0
-        for position in self.board:
-            if position == pattern[patternPosition]:
-                if len(pattern) > 5:
-                    if piece == '+' or piece == 'X':
-                        print('hello')
-                elif piece == '-':
-                    if len(pattern) == 3:
-                        
+    #     for parttern 
+        
     
     def __str__(self):
         board = ""
