@@ -42,3 +42,6 @@ class PiecesOutSide:
             numberOfPiecesRemoved: an integer
         """
         return self.numberOfPiecesRemoved
+    
+    def __str__(self):
+        return str(self.listPiecesOutside)
