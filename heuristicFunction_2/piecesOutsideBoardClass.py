@@ -34,7 +34,7 @@ class PiecesOutSide:
         """
         return self.listPiecesOutside[0]
     
-    def listOutsideCostValue(self):
+    def getNumberPiecesRemoved(self):
         """
         The function returns the value of the numberOfPiecesRemoved
 

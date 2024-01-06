@@ -139,7 +139,7 @@ class Board:
         """
         return self.board[self.positionOnBoard(position)].valuePositionForPiece(piece)
     
-    def boardDiffReservedPositionOverlapReservedPosition(self):
+    def diffReservedPositLapReservedPosit(self):
         """
         The function calculates the difference between the number of reserved positions and the number
         of positions that have overlapping reservations on a board.
