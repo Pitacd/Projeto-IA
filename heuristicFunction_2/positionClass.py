@@ -17,7 +17,7 @@ class Position:
         """
         self.points[pieceRemove] = 0
             
-    def positionIsEmpty(self):
+    def isEmpty(self):
         """
         The function checks if the position is empty by comparing the piece at that position to "_".
         
