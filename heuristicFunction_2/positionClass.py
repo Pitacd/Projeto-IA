@@ -55,6 +55,18 @@ class Position:
         """
         return sum(self.points.values()) > 0
     
+    def valuePositionForPiece(self, piece):
+        """
+        The function returns the position value of a given piece based on a dictionary of points.
+        
+        Arguments:
+            piece: a char
+            
+        Returns:
+            totalPoints: an integer
+        """
+        return self.points[piece] * 2 - sum(self.points.values()) 
+    
     def __str__(self):
         """
         The function returns a string representation of an object, including its position, piece, and
