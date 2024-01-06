@@ -31,7 +31,7 @@ class Board:
                 boardLineList.clear()
         
         return matrixBoard
-
+    
     def positionOnBoard(self, position):
         """
         The function calculates the position on a board based on the given position coordinates.
@@ -44,6 +44,24 @@ class Board:
         """
         return position[0] * 5 + position[1]
     
+    def removePieceFormBoard(self, piece, matrix):
+        """
+        The function removes a specified shape piece from a board, given by the matrix 5x5
+        result of that removed, by setting its points to 0 and updating the board it self. 
+        
+        Arguments:
+            piece: a char
+            matrix: a matrix 5x5
+        """
+        for line in range(5):
+            for column in range(5):
+                positionBoard = self.positionOnBoard((line,column))
+                
+                if self.board[positionBoard].piece == piece:
+                    if matrix[line][column] == '_':
+                        self.board[positionBoard].points[piece] = 0
+                        self.board[positionBoard].piece = '_'
+    
     def putPieceOnTheBoard(self, position, piece):
         """
         The function puts a piece on the board at a specified position and resets its points.
@@ -54,25 +72,6 @@ class Board:
         """
         indexBoard = self.positionOnBoard(position)
         self.board[indexBoard].piece = piece
-
-    def boardValueByTheHeuristic2(self):
-        """
-        The function calculates the board value given by the heuristic 2.
-        
-        Returns:
-            An integer. The difference between the number of reserved positions 
-            on the board and the number of positions that have a superposed reservation.
-        """
-        
-        positionsReserved = 0
-        positionsSuperpose = 0
-        for position in self.board:
-            if position.positionIsReserved():
-                positionsReserved += 1
-                if position.positionIsSuperposeReservation():
-                    positionsSuperpose += 1
-        
-        return positionsReserved - positionsSuperpose
     
     def putPointsOnThePositions(self, piece: chr, pattern: list[tuple[int]]):
         """
@@ -125,8 +124,40 @@ class Board:
                 if position.points[piece] > 0:
                     if position.positionIsEmpty():
                         listReservationPiece.append(position.position)
-        return listReservationPiece
-                
+        return listReservationPiece 
+
+    def valuePositionForPieceOnBoard(self, piece, position):
+        """
+        The function returns the value of a position on the board for a given piece.
+        
+        Arguments:
+            piece: a char
+            position: a (line,column)
+            
+        Returns:
+            valuePositionForPiece: an integer
+        """
+        return self.board[self.positionOnBoard(position)].valuePositionForPiece(piece)
+    
+    def boardDiffReservedPositionOverlapReservedPosition(self):
+        """
+        The function calculates the difference between the number of reserved positions and the number
+        of positions that have overlapping reservations on a board.
+        
+        Returns:
+            The difference between the number of reserved positions and the number of positions
+        that have a superposed reservation.
+        """
+        
+        positionsReserved = 0
+        positionsSuperpose = 0
+        for position in self.board:
+            if position.positionIsReserved():
+                positionsReserved += 1
+                if position.positionIsSuperposeReservation():
+                    positionsSuperpose += 1
+        
+        return positionsReserved - positionsSuperpose
     
     def __str__(self):
         board = ""
@@ -134,13 +165,7 @@ class Board:
             board += str(Position) + "\n"
         return board
 
-board = Board()
-board.createInitialBoard()
-board.putPointsOnThePositions('-', [(0,1),(0,2),(0,3)])
-print(board.reservationForPiece('-'))
+
     
 #TODO add a tree class and node class to make the IA 
-#TODO make a function to put the piece in a position with a value higher than 0 for that type 
-#TODO make a function to increase the position points for each piece put in that shape (dot make sense now)
-#TODO make a function to clean the points in the positions with the pieces removed
 #TODO make a function to see if there is a reserved position to that type of piece, case there is put it there if not try to create a new shape, if empty put in an empty spot 
