@@ -1,7 +1,6 @@
 from boardClass import *
 from piecesOutsideBoardClass import *
 from reservePositionBoard import *
-from brain import listPiecesOutside
 from removePiece import removeForms
 
 class Node:
@@ -19,11 +18,11 @@ frontier = []
 # initialize the board with a empty board
 startBoard = Board()
 startBoard.createInitialBoard()
-# initialize the list with pieces outside
-# given by robot, read it by the sensor 
-startPiecesOutside = PiecesOutSide(listPiecesOutside)
+#! make a function to give in the main after read colors
+#! the list of pieces outside
+startPiecesOutside = PiecesOutSide(['-','+','-'])
 # create the first node
 root = Node(None, startBoard, startPiecesOutside)
 
-print(root.board)
+print(root.piecesOutside)
 
