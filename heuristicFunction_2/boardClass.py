@@ -14,6 +14,23 @@ class Board:
         for line in range(5):
             for column in range(5):
                self.board.append(Position((line,column)))
+               
+    def boardAsAnMatrix(self):
+        """
+        The function converts a board represented as a list into a matrix
+        representation.
+        Returns:
+            matrixBoard: an 5x5
+        """
+        matrixBoard = []
+        boardLineList = []
+        for position in self.board:
+            boardLineList.append(position.piece)
+            if len(boardLineList) > 4:
+                matrixBoard.append(boardLineList.copy())
+                boardLineList.clear()
+        
+        return matrixBoard
 
     def positionOnBoard(self, position):
         """
@@ -56,16 +73,32 @@ class Board:
                     positionsSuperpose += 1
         
         return positionsReserved - positionsSuperpose
+    
+    def putPointsOnThePositions(self, piece: chr, pattern: list[tuple[int]]):
         
+        patternPosition = 0
+        for position in self.board:
+            if position == pattern[patternPosition]:
+                if len(pattern) > 5:
+                    if piece == '+' or piece == 'X':
+                        print('hello')
+                elif piece == '-':
+                    if len(pattern) == 3:
+                        
+    
     def __str__(self):
         board = ""
         for Position in self.board:
             board += str(Position) + "\n"
         return board
+
+board = Board()
+board.createInitialBoard()
+print(board)
+print(board.boardAsAnMatrix())
     
 #TODO add a tree class and node class to make the IA 
-#TODO make a function that by the given position where it will put the piece gives all the possible shapes to make in that position
 #TODO make a function to put the piece in a position with a value higher than 0 for that type 
-#TODO make a function to increase the position points for each piece put in that shape
+#TODO make a function to increase the position points for each piece put in that shape (dot make sense now)
 #TODO make a function to clean the points in the positions with the pieces removed
 #TODO make a function to see if there is a reserved position to that type of piece, case there is put it there if not try to create a new shape, if empty put in an empty spot 
