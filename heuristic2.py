@@ -1,8 +1,8 @@
 from boardClass import *
 from piecesOutsideBoardClass import *
 from reservePositionBoard import *
-from ..brain import listPiecesOutside
-from ..removePiece import removeForms
+from brain import listPiecesOutside
+from removePiece import removeForms
 
 class Node:
     def __init__(self, parent, board, piecesOutside, piece = '_', position = None):
@@ -25,5 +25,5 @@ startPiecesOutside = PiecesOutSide(listPiecesOutside)
 # create the first node
 root = Node(None, startBoard, startPiecesOutside)
 
-print(root)
+print(root.board)
 
