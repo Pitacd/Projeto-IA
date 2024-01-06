@@ -74,10 +74,58 @@ class Board:
         
         return positionsReserved - positionsSuperpose
     
-    # def putPointsOnThePositions(self, piece: chr, pattern: list[tuple[int]]):
+    def putPointsOnThePositions(self, piece: chr, pattern: list[tuple[int]]):
+        """
+        The function assigns points to positions on a board based on the given
+        piece and pattern.
         
-    #     for parttern 
+        Arguments:
+            piece: a char
+            pattern: a list of tuples, where each tuple represents a position on the board
+        """
         
+        if piece == '-':
+            if len(pattern) > 2:
+                middlePosition = pattern[int(len(pattern)/2)]
+                for position in pattern:
+                    self.board[self.positionOnBoard(position)].points[piece] = 2
+                    if position == middlePosition:
+                        self.board[self.positionOnBoard(position)].points[piece] = 1
+            else:
+                for position in pattern:
+                    self.board[self.positionOnBoard(position)].points[piece] = 1
+            
+        elif piece == '+' or piece == 'X':
+            if len(pattern) > 5:
+                for position in pattern:
+                    self.board[self.positionOnBoard(position)].points[piece] = 2
+                    if position == (2,2):
+                        self.board[self.positionOnBoard(position)].points[piece] = 1
+            else:
+                for position in pattern:
+                    self.board[self.positionOnBoard(position)].points[piece] = 1
+
+        elif piece == 'O':
+            for position in pattern:
+                    self.board[self.positionOnBoard(position)].points[piece] = 1
+    
+    def verifyReservationForPiece(self, piece):
+        """
+        The function checks if a given piece has a reservation on the board.
+        
+        Arguments:
+            piece: a char
+            
+        Returns:
+            pieceHasReservation: boolean
+        """
+        pieceHasReservation = False
+        for position in self.board:
+                if position.points[piece] > 0:
+                    pieceHasReservation = True
+                    break
+        return pieceHasReservation
+                
     
     def __str__(self):
         board = ""
@@ -87,8 +135,8 @@ class Board:
 
 board = Board()
 board.createInitialBoard()
+board.putPointsOnThePositions('-', [(0,1),(0,2),(0,3)])
 print(board)
-print(board.boardAsAnMatrix())
     
 #TODO add a tree class and node class to make the IA 
 #TODO make a function to put the piece in a position with a value higher than 0 for that type 
