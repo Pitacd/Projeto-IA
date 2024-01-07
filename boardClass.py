@@ -98,49 +98,48 @@ class Board:
             piece: a char
             pattern: a list of tuples, where each tuple represents a position on the board
         """
+        points = len(pattern)
         
         if piece == '-':
             if len(pattern) > 2:
                 middlePosition = pattern[int(len(pattern)/2)]
                 for position in pattern:
-                    self.board[self.positionOnBoard(position)].points[piece] = 2
+                    self.board[self.positionOnBoard(position)].points[piece] = points
                     if position == middlePosition:
-                        self.board[self.positionOnBoard(position)].points[piece] = 1
+                        self.board[self.positionOnBoard(position)].points[piece] = points-1
             else:
                 for position in pattern:
-                    self.board[self.positionOnBoard(position)].points[piece] = 1
+                    self.board[self.positionOnBoard(position)].points[piece] = points
             
         elif piece == '+' or piece == 'X':
             if len(pattern) > 5:
                 for position in pattern:
-                    self.board[self.positionOnBoard(position)].points[piece] = 2
+                    self.board[self.positionOnBoard(position)].points[piece] = points
                     if position == (2,2):
-                        self.board[self.positionOnBoard(position)].points[piece] = 1
+                        self.board[self.positionOnBoard(position)].points[piece] = points-1
             else:
                 for position in pattern:
-                    self.board[self.positionOnBoard(position)].points[piece] = 1
+                    self.board[self.positionOnBoard(position)].points[piece] = points 
 
         elif piece == 'O':
             for position in pattern:
-                    self.board[self.positionOnBoard(position)].points[piece] = 1
+                    self.board[self.positionOnBoard(position)].points[piece] = points
     
     def reservationForPiece(self, piece):
         """
-        The function returns a list of positions on the board where a given piece
-        can be reserved.
+        The function checks if a given piece has a reservation on the board.
         
-        Arguments:
+        Arguments: 
             piece: a char
-            
+        
         Returns:
-            listReservationPiece: a list of tuples
+            pieceHasReservation: a boolean
         """
-        listReservationPiece = []
+        pieceHasReservation = False
         for position in self.board:
                 if position.points[piece] > 0:
-                    if position.isEmpty():
-                        listReservationPiece.append(position.position)
-        return listReservationPiece 
+                    pieceHasReservation = True
+        return pieceHasReservation
 
     def valuePositionForPieceOnBoard(self, piece, position):
         """
@@ -178,7 +177,7 @@ class Board:
         
         return positionsReserved - positionsSuperpose
     
-    def allPossibleBoardPlacePiece(self,numberOfPieces, piece, position):
+    def allPossibleBoardPiecePlace(self,numberOfPieces, piece, position):
         """
         The function returns a list of all possible boards that can be
         created by placing a given number of pieces on a board at a given position.
@@ -193,15 +192,20 @@ class Board:
         """
         
         listPossibleBoards = [] 
-        currentBoard = self.boardAsAnMatrix()
-        listSetPossibleShape = listSetPositionForPieceForm(numberOfPieces, piece, position, currentBoard)
-        if len(listSetPossibleShape) > 0:
-            for reservation in listSetPossibleShape:
+        if not self.reservationForPiece(piece):
+            currentBoard = self.boardAsAnMatrix()
+            listSetPossibleShape = listSetPositionForPieceForm(numberOfPieces, piece, position, currentBoard)
+            if len(listSetPossibleShape) > 0:
+                for reservation in listSetPossibleShape:
+                    newBoard = copy.deepcopy(self)
+                    newBoard.putPointsOnThePositions(piece, reservation)
+                    newBoard.putPieceOnTheBoard(position,piece)
+                    listPossibleBoards.append(copy.copy(newBoard))
+                    newBoard = None
+            else:
                 newBoard = copy.deepcopy(self)
-                newBoard.putPointsOnThePositions(piece, reservation)
                 newBoard.putPieceOnTheBoard(position,piece)
-                listPossibleBoards.append(copy.copy(newBoard))
-                newBoard = None
+                listPossibleBoards.append(newBoard)
         else:
             newBoard = copy.deepcopy(self)
             newBoard.putPieceOnTheBoard(position,piece)
@@ -215,13 +219,13 @@ class Board:
             board += str(Position) + "\n"
         return board
 
-board = Board()
-board.createInitialBoard()
+# board = Board()
+# board.createInitialBoard()
 
-boardSons = board.allPossibleBoardPiecePlace(3,'-',(0,0))
-for son in boardSons:
-    print(son)
-    print('------------------------------')
+# boardSons = board.allPossibleBoardPiecePlace(3,'-',(0,0))
+# for son in boardSons:
+#     print(son)
+#     print('------------------------------')
 
 #TODO add a tree class and node class to make the IA 
 #TODO make a function to see if there is a reserved position to that type of piece, case there is put it there if not try to create a new shape, if empty put in an empty spot 
