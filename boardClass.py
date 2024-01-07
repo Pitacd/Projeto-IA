@@ -1,4 +1,6 @@
 from positionClass import Position
+from reservePositionBoard import *
+import copy
 
 class Board:
     def __init__(self, board = []):
@@ -176,22 +178,50 @@ class Board:
         
         return positionsReserved - positionsSuperpose
     
+    def allPossibleBoardPlacePiece(self,numberOfPieces, piece, position):
+        """
+        The function returns a list of all possible boards that can be
+        created by placing a given number of pieces on a board at a given position.
+        
+        Arguments:
+            numberOsPieces: a integer
+            piece: a char
+            position: a (line,column)
+            
+        Returns:
+            listPossibleBoards: a list of Boards
+        """
+        
+        listPossibleBoards = [] 
+        currentBoard = self.boardAsAnMatrix()
+        listSetPossibleShape = listSetPositionForPieceForm(numberOfPieces, piece, position, currentBoard)
+        if len(listSetPossibleShape) > 0:
+            for reservation in listSetPossibleShape:
+                newBoard = copy.deepcopy(self)
+                newBoard.putPointsOnThePositions(piece, reservation)
+                newBoard.putPieceOnTheBoard(position,piece)
+                listPossibleBoards.append(copy.copy(newBoard))
+                newBoard = None
+        else:
+            newBoard = copy.deepcopy(self)
+            newBoard.putPieceOnTheBoard(position,piece)
+            listPossibleBoards.append(newBoard)
+        
+        return listPossibleBoards
+            
     def __str__(self):
         board = ""
         for Position in self.board:
             board += str(Position) + "\n"
         return board
 
-# board = Board()
-# board.createInitialBoard()
+board = Board()
+board.createInitialBoard()
 
-# board.putPointsOnThePositions('-', ((0,1),(0,2)))
+boardSons = board.allPossibleBoardPiecePlace(3,'-',(0,0))
+for son in boardSons:
+    print(son)
+    print('------------------------------')
 
-# for i in board.reservationForPiece('-'):
-#     board.putPieceOnTheBoard(i,'-')
-#     print(board)
-
-# board.removePieceFormBoard('-',[["_", "_", "_", "_", "_"],["_", "_", "_", "_", "_"],["_", "_", "_", "_", "_"],["_", "_", "_", "_", "_"],["_", "_", "_", "_", "_"]])
-# print(board)
 #TODO add a tree class and node class to make the IA 
 #TODO make a function to see if there is a reserved position to that type of piece, case there is put it there if not try to create a new shape, if empty put in an empty spot 
