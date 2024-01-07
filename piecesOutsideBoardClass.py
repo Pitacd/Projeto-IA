@@ -11,6 +11,10 @@ class PiecesOutSide:
         """
         self.listPiecesOutside = listPiecesOutside
         self.numberOfPiecesRemoved = numberOfPiecesRemoved
+        self.numberEachPiece = {'-': listPiecesOutside.count('-'),
+                                '+': listPiecesOutside.count('+'),
+                                'O': listPiecesOutside.count('O'),
+                                'X': listPiecesOutside.count('X')}
         
     def pieceToPutOnBoard(self):
         """
@@ -20,10 +24,9 @@ class PiecesOutSide:
         Returns:
             pieceToBePut: a char
         """
-        pieceToBePut = self.listPiecesOutside.pop()
-        self.numberOfEachPiece[pieceToBePut] -= 1
+        pieceToBePut = self.listPiecesOutside.pop(0)
+        self.numberEachPiece[pieceToBePut] -= 1
         self.numberOfPiecesRemoved += 1
-        return pieceToBePut
     
     def getPieceToPutOnBoard(self):
         """
@@ -33,15 +36,6 @@ class PiecesOutSide:
             pieceToPutOnBoard: a char
         """
         return self.listPiecesOutside[0]
-    
-    def getNumberPiecesRemoved(self):
-        """
-        The function returns the value of the numberOfPiecesRemoved
-
-        Arguments:
-            numberOfPiecesRemoved: an integer
-        """
-        return self.numberOfPiecesRemoved
     
     def __str__(self):
         return str(self.listPiecesOutside)
