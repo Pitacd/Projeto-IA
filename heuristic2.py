@@ -7,7 +7,7 @@ class Node:
     def __init__(self, board, piecesOutside, piece = '_', position = None, listPositions = [], dadCostValue = 0):
         self.board = board
         self.piecesOutside = piecesOutside
-        self.costValue = piecesOutside.numberOfPiecesRemoved + board.valuePositionForPieceOnBoard(piece, position) + dadCostValue 
+        self.costValue = 1 + board.valuePositionForPieceOnBoard(piece, position) + dadCostValue 
         self.heuristicValue = board.diffReservedPositLapReservedPosit() 
         self.positionsPlaced = listPositions
         self.piecePlaced = piece
@@ -31,9 +31,10 @@ def resolveGameIAHeuristic2(listPiecesOutside):
         possiblePositions = currentNode.board.emptyPositions()
         
         if len(possiblePositions) <= 0 or len(currentNode.piecesOutside.listPiecesOutside) <= 0:
+            print(currentNode.board.boardAsAnMatrix())
             return currentNode.positionsPlaced
         else:
-            newPiecesOutside = deepcopy(currentNode.piecesOutside)
+            newPiecesOutside = deepcopy(currentNode.piecesOutside, {})
             piece = newPiecesOutside.getPieceToPutOnBoard()
             
             for position in possiblePositions:
@@ -49,7 +50,7 @@ def resolveGameIAHeuristic2(listPiecesOutside):
             
             newPiecesOutside.pieceToPutOnBoard()
             frontier.sort(reverse=True, key=lambda node: node.costValue + node.heuristicValue)
-            frontier = frontier[0:10]
+            frontier = frontier[0:25]
             
-result = resolveGameIAHeuristic2(['-', '-','-'])
+result = resolveGameIAHeuristic2(['+', '+', 'X', 'O', '-', '+', '-', '-', 'X', 'O', 'X', 'O', '+', '+', 'O', 'X', 'O', 'O', 'O', '-', '+', 'O', '-', '-', '-', 'O', 'X', '-', 'O', 'X'])
 print(result)
