@@ -67,12 +67,3 @@ class Position:
         """
         return self.points[piece] * 3 - sum(self.points.values()) 
     
-    def __str__(self):
-        """
-        The function returns a string representation of an object, including its position, piece, and
-        points.
-        
-        Returns:
-            A string representation of the object, with the position, piece, and points of the object.
-        """
-        return f"Position: {self.position} Piece: {self.piece} Points: {self.points}"
