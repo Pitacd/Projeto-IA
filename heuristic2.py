@@ -1,6 +1,7 @@
 from boardClass import *
 from piecesOutsideBoardClass import *
 from removePiece import removeForms
+from copy import deepcopy
 
 class Node:
     def __init__(self, board, piecesOutside, piece = '_', position = None, listPositions = [], dadCostValue = 0):
@@ -32,7 +33,7 @@ def resolveGameIAHeuristic2(listPiecesOutside):
         if len(possiblePositions) <= 0 or len(currentNode.piecesOutside.listPiecesOutside) <= 0:
             return currentNode.positionsPlaced
         else:
-            newPiecesOutside = copy.deepcopy(currentNode.piecesOutside)
+            newPiecesOutside = deepcopy(currentNode.piecesOutside)
             piece = newPiecesOutside.getPieceToPutOnBoard()
             
             for position in possiblePositions:
@@ -48,3 +49,7 @@ def resolveGameIAHeuristic2(listPiecesOutside):
             
             newPiecesOutside.pieceToPutOnBoard()
             frontier.sort(reverse=True, key=lambda node: node.costValue + node.heuristicValue)
+            frontier = frontier[0:10]
+            
+result = resolveGameIAHeuristic2(['-', '-','-'])
+print(result)
