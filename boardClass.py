@@ -9,6 +9,10 @@ class Board:
         """
         self.board = board
         
+    def __deepcopy__(self, memo):
+        new_instance = self.__class__(copy.deepcopy(self.board, memo))
+        return new_instance
+    
     def createInitialBoard(self):
         """
         The function creates an initial board by appending positions to a list.
@@ -200,8 +204,7 @@ class Board:
                     newBoard = copy.deepcopy(self)
                     newBoard.putPointsOnThePositions(piece, reservation)
                     newBoard.putPieceOnTheBoard(position,piece)
-                    listPossibleBoards.append(copy.copy(newBoard))
-                    newBoard = None
+                    listPossibleBoards.append(newBoard)
             else:
                 newBoard = copy.deepcopy(self)
                 newBoard.putPieceOnTheBoard(position,piece)

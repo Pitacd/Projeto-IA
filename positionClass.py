@@ -1,5 +1,7 @@
+import copy
+
 class Position:
-    def __init__(self,position):
+    def __init__(self,position, piece = '_', points = {"X" : 0, "O" : 0, "+" : 0, "-" : 0}):
         """
         The function initializes an object with a position, a default piece, "_", and a default 
         dictionary of points of each piece in the position, that will be 0 for each one initially.
@@ -8,8 +10,14 @@ class Position:
             position: (line, column)
         """
         self.position = position
-        self.piece = "_"
-        self.points = {"X" : 0, "O" : 0, "+" : 0, "-" : 0}
+        self.piece = piece
+        self.points = points
+        
+    def __deepcopy__(self, memo):
+        new_instance = self.__class__(copy.deepcopy(self.position, memo),
+                                      copy.deepcopy(self.piece, memo),
+                                      copy.deepcopy(self.points, memo))
+        return new_instance
     
     def resetPointsByPieceRemove(self, pieceRemove):
         """
@@ -66,4 +74,3 @@ class Position:
             totalPoints: an integer
         """
         return self.points[piece] * 3 - sum(self.points.values()) 
-    

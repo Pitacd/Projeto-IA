@@ -1,3 +1,4 @@
+import copy
 class PiecesOutSide:
     
     def __init__(self, listPiecesOutside, numberOfPiecesRemoved = 0):
@@ -15,7 +16,12 @@ class PiecesOutSide:
                                 '+': listPiecesOutside.count('+'),
                                 'O': listPiecesOutside.count('O'),
                                 'X': listPiecesOutside.count('X')}
-        
+    
+    def __deepcopy__(self,memo):
+        new_instance = self.__class__(copy.deepcopy(self.listPiecesOutside, memo),
+                                      copy.deepcopy(self.numberOfPiecesRemoved, memo))
+        return new_instance
+    
     def pieceToPutOnBoard(self):
         """
         The function removes a piece from a list of pieces outside the board,
