@@ -65,7 +65,7 @@ class Position:
         Returns:
             totalPoints: an integer
         """
-        return self.points[piece] * 2 - sum(self.points.values()) 
+        return self.points[piece] * 3 - sum(self.points.values()) 
     
     def __str__(self):
         """
