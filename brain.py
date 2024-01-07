@@ -126,3 +126,18 @@ def showBoard():
         print(strLine)
         
     print("----------------------")
+    
+def passColorToPieceInOutsidePieces():
+    """
+    The function takes a list of pieces outside and maps their colors to symbols, returning a list of
+    symbols.
+    
+    Returns:
+        listPiecesOutsideChr: a list of chr
+    """
+    listPiecesOutsideChr = []
+    
+    for piece in listPiecesOutside:
+        listPiecesOutsideChr.append(mapColorToSymbol[piece])
+    
+    return listPiecesOutsideChr
