@@ -17,9 +17,9 @@ class PiecesOutSide:
                                 'O': listPiecesOutside.count('O'),
                                 'X': listPiecesOutside.count('X')}
     
-    def __deepcopy__(self,memo):
+    def __deepcopy__(self, memo):
         new_instance = self.__class__(copy.deepcopy(self.listPiecesOutside, memo),
-                                      copy.deepcopy(self.numberOfPiecesRemoved, memo))
+                                    copy.deepcopy(self.numberOfPiecesRemoved, memo))
         return new_instance
     
     def pieceToPutOnBoard(self):
