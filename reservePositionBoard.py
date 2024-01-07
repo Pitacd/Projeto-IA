@@ -45,14 +45,13 @@ def listSmallShapeToUse(piece):
     Returns:
         listOfPossibleSmallShapes: a list
     """
-    match piece:
-            case '-':
-                return listPossibleSetMinusReservationSmallShape
-            case '+':
-                return listPossibleSetPlusReservationSmallShape
-            case 'X':
+    if piece == '-':
+        return listPossibleSetMinusReservationSmallShape
+    elif piece == '+':
+        return listPossibleSetPlusReservationSmallShape
+    elif piece == 'X':
                 return listPossibleSetXReservationSmallShape
-            case 'O':
+    else:
                 return listPossibleSetCircleReservationSmallShape
 
 def listBigShapeToUse(piece):
@@ -65,15 +64,15 @@ def listBigShapeToUse(piece):
     Returns:
         listOfPossibleBigShapes: a list
     """
-    match piece:
-        case '-':
+    
+    if piece == '-':
             return listPossibleSetMinusReservationBigShape
-        case '+':
-            return listPossiblePlusReservationBigShape
-        case 'X':
-            return listPossibleSetXReservationBigShape
-        case 'O':
-            return listPossibleSetCircleReservationMidShape
+    elif piece == '+':
+        return listPossiblePlusReservationBigShape
+    elif piece == 'X':
+        return listPossibleSetXReservationBigShape
+    else:
+        return listPossibleSetCircleReservationMidShape
 
 def possibleFormToDoInTheBoard(board, positionToPutPiece, listPossibleFormToDo, listPossibleSetReservationShape):
     """
