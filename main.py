@@ -33,11 +33,12 @@ robot.settings(150, 100, 150, 100)
 # Points
 points = 0
 
-brain.readAllColorOfPieces(ev3, colorSensor)
+# brain.readAllColorOfPieces(ev3, colorSensor)
 
 # list of the position given by the heuristic 2
-print(brain.passColorToPieceInOutsidePieces()) 
-result = resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
+print(['-', '-','-']) 
+result = resolveGameIAHeuristic2(['-','-', '-'])
+print(result)
 
 # The loop is checking if either pieces 
 # to put on the board or the board is full
