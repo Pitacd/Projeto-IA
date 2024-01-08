@@ -7,14 +7,14 @@ class Node:
     def __init__(self, board, piecesOutside, piece = '_', position = None, listPositions = [], dadCostValue = 0):
         self.board = board
         self.piecesOutside = piecesOutside
-        self.costValue = 1 + board.valuePositionForPieceOnBoard(piece, position) + dadCostValue 
+        self.costValue = self.board.valuePositionForPieceOnBoard(piece, position)/(self.board.numberPositReservedLapReservedPosit()[0]+1) + dadCostValue 
         self.heuristicValue = board.diffReservedPositLapReservedPosit() 
         self.positionsPlaced = listPositions
         self.piecePlaced = piece
         if position != None:
             self.positionsPlaced.append(position)
         
-def resolveGameIAHeuristic2(listPiecesOutside):
+def resolveGameIAHeuristic2(listPiecesOutside, searchMethod=lambda node: node.costValue + node.heuristicValue,reverse=True):
     # create the frontier
     frontier = []
 
@@ -50,5 +50,25 @@ def resolveGameIAHeuristic2(listPiecesOutside):
                             frontier[-1].board.removePieceFormBoard(frontier[-1].piecePlaced, boardPiecesRemoved)
             
             newPiecesOutside.pieceToPutOnBoard()
-            frontier = sorted(frontier, key=lambda node: node.costValue + node.heuristicValue, reverse=True)
+            frontier = sorted(frontier, key=searchMethod, reverse=reverse)
             frontier = frontier[0:25]
+
+def heuristic(node : Node):
+    pieceSymbol = node.piecePlaced
+    piecesToCompleteTheShape = len(node.board.listPositionReservedForPiece(pieceSymbol))
+    numberOfPiecesOnBoard = node.board.numberOfPieceOnBoard(pieceSymbol)
+
+    piecesIndexes = [i + 1 for i in range(len(node.piecesOutside.listPiecesOutside)) if node.piecesOutside.listPiecesOutside[i] == pieceSymbol]
+    if len(piecesIndexes) > 0 and numberOfPiecesOnBoard > 0:
+        index = piecesToCompleteTheShape - numberOfPiecesOnBoard - 1
+        movesBetweenFirstAndLastPieces = piecesIndexes[index]
+        return piecesToCompleteTheShape/movesBetweenFirstAndLastPieces
+    else:
+        return 0
+
+def cost(node: Node, parentCost):
+    return parentCost + node.board.numberPositReservedLapReservedPosit()[0]/node.board.valuePositionForPieceOnBoard(node.piecePlaced, node.positionsPlaced[-1])
+
+result = resolveGameIAHeuristic2(['-', '+', 'X', '+', 'X', '+', 'O', '-', '-', '-', 'O', 'X', 'X', '+', '-', '+', 'X', '+', 'O', '+'], lambda node: heuristic(node) + node.costValue)
+
+print(result)
