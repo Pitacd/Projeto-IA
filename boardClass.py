@@ -222,14 +222,3 @@ class Board:
         for Position in self.board:
             board += str(Position) + "\n"
         return board
-
-# board = Board()
-# board.createInitialBoard()
-
-# boardSons = board.allPossibleBoardPiecePlace(3,'-',(0,0))
-# for son in boardSons:
-#     print(son)
-#     print('------------------------------')
-
-#TODO add a tree class and node class to make the IA
-#TODO make a function to see if there is a reserved position to that type of piece, case there is put it there if not try to create a new shape, if empty put in an empty spot
