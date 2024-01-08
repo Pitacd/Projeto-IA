@@ -162,6 +162,25 @@ class Board:
         else:
             return self.board[self.positionOnBoard(position)].valuePositionForPiece(piece)
 
+    def numberPositReservedLapReservedPosit(self):
+        """
+        The function counts the number of reserved positions on a board and the number of reserved
+        positions that are also superposed.
+        
+        Returns:
+            a tuple: (positionsReserved,positionsSuperpose)
+        """
+        positionsReserved = 0
+        positionsSuperpose = 0
+        for position in self.board:
+            if position.positionIsReserved():
+                positionsReserved += 1
+                if position.positionIsSuperposeReservation():
+                    positionsSuperpose += 1
+        
+        return (positionsReserved,positionsSuperpose)
+
+    
     def diffReservedPositLapReservedPosit(self):
         """
         The function calculates the difference between the number of reserved positions and the number
@@ -172,15 +191,9 @@ class Board:
         that have a superposed reservation.
         """
 
-        positionsReserved = 0
-        positionsSuperpose = 0
-        for position in self.board:
-            if position.positionIsReserved():
-                positionsReserved += 1
-                if position.positionIsSuperposeReservation():
-                    positionsSuperpose += 1
+        (reserved, lapReserved) = self.numberPositReservedLapReservedPosit()
 
-        return positionsReserved - positionsSuperpose
+        return reserved - lapReserved
 
     def allPossibleBoardPiecePlace(self,numberOfPieces, piece, position):
         """
