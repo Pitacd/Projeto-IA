@@ -129,7 +129,7 @@ class Board:
             for position in pattern:
                     self.board[self.positionOnBoard(position)].points[piece] = points
 
-    def reservationForPiece(self, piece):
+    def numberPositionReservedForPiece(self, piece):
         """
         The function checks if a given piece has a reservation on the board.
 
@@ -139,11 +139,12 @@ class Board:
         Returns:
             pieceHasReservation: a boolean
         """
-        pieceHasReservation = False
+        nPositionsReserved = 0
         for position in self.board:
                 if position.points[piece] > 0:
-                    pieceHasReservation = True
-        return pieceHasReservation
+                    nPositionsReserved +=1
+        
+        return nPositionsReserved
 
     def valuePositionForPieceOnBoard(self, piece, position):
         """
@@ -196,7 +197,7 @@ class Board:
         """
 
         listPossibleBoards = []
-        if not self.reservationForPiece(piece):
+        if self.numberPositionReservedForPiece(piece) <= 0:
             currentBoard = self.boardAsAnMatrix()
             listSetPossibleShape = listSetPositionForPieceForm(numberOfPieces, piece, position, currentBoard)
             if len(listSetPossibleShape) > 0:
