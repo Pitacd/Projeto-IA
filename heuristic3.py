@@ -25,9 +25,10 @@ def resolveGameIAHeuristic3(listPiecesOutside):
     # create the first node
     rootNode = Node(startBoard, startPiecesOutside)
     frontier.append(rootNode)
-
+    
     while frontier != []:
         
+        # remove the best node from the frontier
         currentNode = frontier.pop(0)
         possiblePositions = currentNode.board.emptyPositions()
         
@@ -38,6 +39,8 @@ def resolveGameIAHeuristic3(listPiecesOutside):
             newPiecesOutside = deepcopy(currentNode.piecesOutside)
             piece = newPiecesOutside.getPieceToPutOnBoard()
             
+            # expand all the nodes possible 
+            # through the best node
             for position in possiblePositions:
                 listNewBoards = currentNode.board.allPossibleBoardPiecePlace(newPiecesOutside.numberEachPiece[piece],piece,position)
                 for board in listNewBoards:
@@ -49,9 +52,13 @@ def resolveGameIAHeuristic3(listPiecesOutside):
                         if pointsAcquired > 0:
                             frontier[-1].board.removePieceFormBoard(frontier[-1].piecePlaced, boardPiecesRemoved)
             
+            # remove the piece from the list of pieces outside
             newPiecesOutside.pieceToPutOnBoard()
+            # get all the indexes of the piece to be put at board 
+            # on the list pieces outside   
             piecesIndexes = [i + 1 for i in range(len(newPiecesOutside.listPiecesOutside)) if newPiecesOutside.listPiecesOutside[i] == piece]
             
+            # sort the frontier through the heuristic function 
             frontier = sorted(frontier, key=lambda node: heuristic(node, piecesIndexes) + node.valuePiecePlaceOnBoard)
             frontier = frontier[0:25]
 
@@ -60,13 +67,21 @@ def heuristic(node : Node, piecesIndexes : list):
     piecesToCompleteTheShape = len(node.board.listPositionReservedForPiece(pieceSymbol))
     numberOfPiecesOnTheReservationsSpots = node.board.numberOfPieceOnReservedPositionsOnBoard(pieceSymbol)
     
+    # verify if there is a reservation for that piece
     if piecesToCompleteTheShape > 0:
         
+        # verify its possible to make the shape of the piece by
+        # sum the number of pieces of that type in the list of pieces 
+        # outside and number of pieces that are on the reserved positions of that shape 
+        # are higher than number of pieces to make the form  
         if len(piecesIndexes) + numberOfPiecesOnTheReservationsSpots >= piecesToCompleteTheShape:
             index = piecesToCompleteTheShape - numberOfPiecesOnTheReservationsSpots - 1
+            # if it is out the index thats strange
             if index < len(piecesIndexes) and index >= 0:
                 movesBetweenFirstAndLastPieces = piecesIndexes[index]
-                return movesBetweenFirstAndLastPieces
+                # return the number of pieces till make form / number of pieces 
+                # to remove, on the list pieces outside, till the last piece to make the form
+                return index/movesBetweenFirstAndLastPieces 
             else:
                 return len(node.piecesOutside.listPiecesOutside)
         else:
@@ -75,5 +90,5 @@ def heuristic(node : Node, piecesIndexes : list):
         return len(node.piecesOutside.listPiecesOutside)
 
 print('Start')
-result = resolveGameIAHeuristic3(['X', 'O', '+', '-', 'O', '-', '-', '+', '+', '+', '+', 'O', 'O', 'X', '+'])
+result = resolveGameIAHeuristic3(['X', '+', '+', '+', 'X', '+', '-', '+', '-', 'X'])
 print(result)
