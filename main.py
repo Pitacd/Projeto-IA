@@ -4,6 +4,7 @@ from pybricks.ev3devices import (Motor, ColorSensor, UltrasonicSensor)
 from pybricks.parameters import Port, Direction
 from pybricks.robotics import DriveBase
 import heuristic1
+import heuristic2
 import heuristic3
 
 #Brain and Movement of the Robot for the Game
@@ -33,14 +34,15 @@ robot.settings(150, 100, 150, 100)
 # Points
 points = 0
 
-# brain.readAllColorOfPieces(ev3, colorSensor)
+brain.readAllColorOfPieces(ev3, colorSensor)
+ev3.speaker.beep()
 
 # list of the positions given by the heuristics
 print(brain.passColorToPieceInOutsidePieces())
-result = heuristic1.heuristicStaticReservation(brain.board, brain.passColorToPieceInOutsidePieces())
-# result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
+# result = heuristic1.heuristicStaticReservation(brain.passColorToPieceInOutsidePieces())
+result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
+# result = heuristic3.resolveGameIAHeuristic3(brain.passColorToPieceInOutsidePieces())
 print(result)
-ev3.speaker.beep()
 ev3.speaker.beep()
 
 # The loop is checking if either pieces
