@@ -4,10 +4,10 @@ from removePiece import removeForms
 from copy import deepcopy
 
 class Node:
-    def __init__(self, board, piecesOutside, piece = '_', position = None, listPositions = [], dadCostValue = 0):
+    def __init__(self, board, piecesOutside, piece = '_', position = None, listPositions = []):
         self.board = board
         self.piecesOutside = piecesOutside
-        self.costValue = 1/(2**self.board.valuePositionForPieceOnBoard(piece, position)) + dadCostValue
+        self.valuePiecePlaceOnBoard = 1/(2**self.board.valuePositionForPieceOnBoard(piece, position))
         self.heuristicValue = board.diffReservedPositLapReservedPosit() 
         self.positionsPlaced = listPositions
         self.piecePlaced = piece
@@ -25,7 +25,7 @@ def resolveGameIAHeuristic1(listPiecesOutside):
     # create the first node
     rootNode = Node(startBoard, startPiecesOutside)
     frontier.append(rootNode)
-    
+
     while frontier != []:
         
         currentNode = frontier.pop(0)
@@ -38,14 +38,10 @@ def resolveGameIAHeuristic1(listPiecesOutside):
             newPiecesOutside = deepcopy(currentNode.piecesOutside)
             piece = newPiecesOutside.getPieceToPutOnBoard()
             
-            pieceOutsideWithout1st = newPiecesOutside.listPiecesOutside.copy()[1:]
-            piecesIndexes = [i + 1 for i in range(len(pieceOutsideWithout1st)) if pieceOutsideWithout1st[i] == piece]
-            pieceOutsideWithout1st.clear()
-            
             for position in possiblePositions:
                 listNewBoards = currentNode.board.allPossibleBoardPiecePlace(newPiecesOutside.numberEachPiece[piece],piece,position)
                 for board in listNewBoards:
-                    frontier.append(Node(board,newPiecesOutside, piece, position, currentNode.positionsPlaced.copy(), currentNode.costValue))
+                    frontier.append(Node(board,newPiecesOutside, piece, position, currentNode.positionsPlaced.copy()))
                     # verify if there is a form of the piece 
                     # placed on this board to be removed
                     if frontier[-1].piecePlaced != '_':
@@ -54,29 +50,30 @@ def resolveGameIAHeuristic1(listPiecesOutside):
                             frontier[-1].board.removePieceFormBoard(frontier[-1].piecePlaced, boardPiecesRemoved)
             
             newPiecesOutside.pieceToPutOnBoard()
-            frontier = sorted(frontier, key=lambda node: heuristic(node, piecesIndexes) + node.costValue)
+            piecesIndexes = [i + 1 for i in range(len(newPiecesOutside.listPiecesOutside)) if newPiecesOutside.listPiecesOutside[i] == piece]
+            
+            frontier = sorted(frontier, key=lambda node: heuristic(node, piecesIndexes) + node.valuePiecePlaceOnBoard)
             frontier = frontier[0:25]
 
 def heuristic(node : Node, piecesIndexes : list):
     pieceSymbol = node.piecePlaced
     piecesToCompleteTheShape = len(node.board.listPositionReservedForPiece(pieceSymbol))
-    numberOfPiecesOnBoard = node.board.numberOfPieceOnBoard(pieceSymbol)
+    numberOfPiecesOnTheReservationsSpots = node.board.numberOfPieceOnReservedPositionsOnBoard(pieceSymbol)
     
     if piecesToCompleteTheShape > 0:
         
-        if len(piecesIndexes) + numberOfPiecesOnBoard >= piecesToCompleteTheShape:
-            index = piecesToCompleteTheShape - numberOfPiecesOnBoard - 1
-            if index < len(piecesIndexes) and index > 0:
+        if len(piecesIndexes) + numberOfPiecesOnTheReservationsSpots >= piecesToCompleteTheShape:
+            index = piecesToCompleteTheShape - numberOfPiecesOnTheReservationsSpots - 1
+            if index < len(piecesIndexes) and index >= 0:
                 movesBetweenFirstAndLastPieces = piecesIndexes[index]
-                return piecesToCompleteTheShape/movesBetweenFirstAndLastPieces
+                return movesBetweenFirstAndLastPieces
             else:
-                return 999
+                return len(node.piecesOutside.listPiecesOutside)
         else:
-            return 999
+            return len(node.piecesOutside.listPiecesOutside)
     else:
-        return 999
+        return len(node.piecesOutside.listPiecesOutside)
 
-print(['+', '-', '-', '-', 'O', 'X', '+', 'O', '-', 'X'])
-result = resolveGameIAHeuristic1(['+', '-', '-', '-', 'O', 'X', '+', 'O', '-', 'X'])
-
+print('Start')
+result = resolveGameIAHeuristic1(['X', 'O', '+', '-', 'O', '-', '-', '+', '+', '+', '+', 'O', 'O', 'X', '+'])
 print(result)
