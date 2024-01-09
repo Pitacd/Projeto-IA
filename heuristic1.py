@@ -6,9 +6,15 @@ xPiece = "X"
 oPiece = "O"
 blankSpot = "_"
 
-def heuristicStaticReservation (initialBoard, listPiecesOutside):
+board = [["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"],
+         ["_", "_", "_", "_", "_"]]
+
+def heuristicStaticReservation (listPiecesOutside):
     
-    board = initialBoard.copy()
+    global board
     listPieces = listPiecesOutside.copy()
     sequence = []
     
@@ -92,6 +98,7 @@ def heuristicStaticReservation (initialBoard, listPiecesOutside):
             if board[i][j] != '_':
                 nPieceBoard += 1
     
+    return sequence
     # print('\n')
     # print(sequence)
     # print('\n')
