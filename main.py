@@ -37,6 +37,7 @@ points = 0
 # list of the position given by the heuristic 2
 # print(brain.passColorToPieceInOutsidePieces())
 print(['-', 'X', '+', 'X', '+', '-', '-', '-', 'O', '-'])
+# result = heuristic1.heuristicStaticReservation(brain.board, brain.passColorToPieceInOutsidePieces())
 # result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
 result = heuristic2.resolveGameIAHeuristic2(['-', 'X', '+', 'X', '+', '-', '-', '-', 'O', '-'])
 print(result)
