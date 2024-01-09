@@ -12,7 +12,11 @@ class Node:
         self.piecePlaced = piece
         if position != None:
             self.positionsPlaced.append(position)
-        
+
+# Use of Algorithm A* 
+# f(x) = g(x) + h(x) 
+# g(x) = value of piece on board
+# h(x) = number positions reserved on board that are not overlap     
 def resolveGameIAHeuristic2(listPiecesOutside):
     # create the frontier
     frontier = []
@@ -24,19 +28,24 @@ def resolveGameIAHeuristic2(listPiecesOutside):
     # create the first node
     rootNode = Node(startBoard, startPiecesOutside)
     frontier.append(rootNode)
+    i = 0
     
     while frontier != []:
         
+        # remove the best node from the frontier
         currentNode = frontier.pop(0)
         possiblePositions = currentNode.board.emptyPositions()
         
         if len(possiblePositions) <= 0 or len(currentNode.piecesOutside.listPiecesOutside) <= 0:
+            print(i)
             print(currentNode.board.boardAsAnMatrix())
             return currentNode.positionsPlaced
         else:
-            newPiecesOutside = deepcopy(currentNode.piecesOutside, {})
+            newPiecesOutside = deepcopy(currentNode.piecesOutside)
             piece = newPiecesOutside.getPieceToPutOnBoard()
             
+            # expand all the nodes possible 
+            # through the best node
             for position in possiblePositions:
                 listNewBoards = currentNode.board.allPossibleBoardPiecePlace(newPiecesOutside.numberEachPiece[piece],piece,position)
                 for board in listNewBoards:
@@ -48,10 +57,14 @@ def resolveGameIAHeuristic2(listPiecesOutside):
                         if pointsAcquired > 0:
                             frontier[-1].board.removePieceFormBoard(frontier[-1].piecePlaced, boardPiecesRemoved)
             
+            # remove the piece from the list of pieces outside
             newPiecesOutside.pieceToPutOnBoard()
+            # sort the frontier through the heuristic function 
             frontier = sorted(frontier, key=lambda node: node.costValue + node.board.diffReservedPositLapReservedPosit(), reverse=True)
+            # update frontier only to contain the best 25 nodes
             frontier = frontier[0:25]
+            i+=1
 
 # print('Start')          
-# result = resolveGameIAHeuristic2(['-', '-', '-', 'X', 'X', 'O', '-', 'X', 'O', '-', 'X', 'X', 'X', 'X', 'X', '-', '-', 'O', 'O', '+', '-', 'O', 'O', '+', '-', 'X', 'X', 'O', '-', 'X'])
+# result = resolveGameIAHeuristic2(['X', 'X', 'X', 'O', 'O', 'O', 'O', 'X', 'X', '-', '-', 'O', 'O', '-', 'X', 'X', 'X', 'X', '-', '-', '+', 'O', 'O', 'O', 'O'])
 # print(result)
