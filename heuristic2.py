@@ -7,7 +7,7 @@ class Node:
     def __init__(self, board, piecesOutside, piece = '_', position = None, listPositions = [], dadCostValue = 0):
         self.board = board
         self.piecesOutside = piecesOutside
-        self.costValue = self.board.valuePositionForPieceOnBoard(piece, position)/(self.board.numberPositReservedLapReservedPosit()[0]+1) + dadCostValue 
+        self.costValue = 1/(2**self.board.valuePositionForPieceOnBoard(piece, position)) + dadCostValue
         self.heuristicValue = board.diffReservedPositLapReservedPosit() 
         self.positionsPlaced = listPositions
         self.piecePlaced = piece
@@ -32,10 +32,10 @@ def resolveGameIAHeuristic2(listPiecesOutside, searchMethod=lambda node: node.co
         possiblePositions = currentNode.board.emptyPositions()
         
         if len(possiblePositions) <= 0 or len(currentNode.piecesOutside.listPiecesOutside) <= 0:
-            print(currentNode.board.boardAsAnMatrix())
+            print(currentNode.board)
             return currentNode.positionsPlaced
         else:
-            newPiecesOutside = deepcopy(currentNode.piecesOutside, {})
+            newPiecesOutside = deepcopy(currentNode.piecesOutside)
             piece = newPiecesOutside.getPieceToPutOnBoard()
             
             for position in possiblePositions:
@@ -57,18 +57,23 @@ def heuristic(node : Node):
     pieceSymbol = node.piecePlaced
     piecesToCompleteTheShape = len(node.board.listPositionReservedForPiece(pieceSymbol))
     numberOfPiecesOnBoard = node.board.numberOfPieceOnBoard(pieceSymbol)
-
-    piecesIndexes = [i + 1 for i in range(len(node.piecesOutside.listPiecesOutside)) if node.piecesOutside.listPiecesOutside[i] == pieceSymbol]
-    if len(piecesIndexes) > 0 and numberOfPiecesOnBoard > 0:
-        index = piecesToCompleteTheShape - numberOfPiecesOnBoard - 1
-        movesBetweenFirstAndLastPieces = piecesIndexes[index]
-        return piecesToCompleteTheShape/movesBetweenFirstAndLastPieces
+    
+    if piecesToCompleteTheShape > 0:
+        
+        piecesIndexes = [i + 1 for i in range(len(node.piecesOutside.listPiecesOutside)) if node.piecesOutside.listPiecesOutside[i] == pieceSymbol]
+        
+        if len(piecesIndexes) + numberOfPiecesOnBoard >= piecesToCompleteTheShape:
+            index = piecesToCompleteTheShape - numberOfPiecesOnBoard - 1
+            if index < len(piecesIndexes) and index > 0:
+                movesBetweenFirstAndLastPieces = piecesIndexes[index]
+                return piecesToCompleteTheShape/movesBetweenFirstAndLastPieces
+            else:
+                return 999
+        else:
+            return 999
     else:
-        return 0
+        return 999
 
-def cost(node: Node, parentCost):
-    return parentCost + node.board.numberPositReservedLapReservedPosit()[0]/node.board.valuePositionForPieceOnBoard(node.piecePlaced, node.positionsPlaced[-1])
-
-result = resolveGameIAHeuristic2(['-', '+', 'X', '+', 'X', '+', 'O', '-', '-', '-', 'O', 'X', 'X', '+', '-', '+', 'X', '+', 'O', '+'], lambda node: heuristic(node) + node.costValue)
+result = resolveGameIAHeuristic2(['+', 'O', '-', 'O', 'X', '-', '-', 'O', '-', '-', '+', '+', 'O', '-', '-', 'X', 'X', 'O', 'O', '-', 'X', 'X', '-', 'X', 'O'], lambda node: heuristic(node) + node.costValue, reverse=False)
 
 print(result)
