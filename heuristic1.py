@@ -1,18 +1,10 @@
 from removePiece import removeForms
 
-# listPiecesOutside = ['-', '+', '+', '-', '+', 'X', '+', 'O', '+', '+', 'X', 'O', '+', 'X', 'O', 'O', '-', 'X', '+', 'X', 'O', 'O', '-', 'O', 'O', 'X', '-', '-', 'X', 'X', 'O', '+', 'O', 'X', '+', '-', 'O', '+', '-', 'X', '+', 'X', '+', '-', 'X', 'X', 'O', 'X', '+', 'O']
-
 minusPiece = "-"
 plusPiece = "+"
 xPiece = "X"
 oPiece = "O"
 blankSpot = "_"
-
-# board = [["_", "_", "_", "_", "_"],
-#         ["_", "_", "_", "_", "_"],
-#         ["_", "_", "_", "_", "_"],
-#         ["_", "_", "_", "_", "_"],
-#         ["_", "_", "_", "_", "_"]]
 
 def heuristicStaticReservation (initialBoard, listPiecesOutside):
     
@@ -99,11 +91,9 @@ def heuristicStaticReservation (initialBoard, listPiecesOutside):
         for j in range(len(board[i])):
             if board[i][j] != '_':
                 nPieceBoard += 1
-    print('\n')
-    print(sequence)
-    print('\n')
-    print(board)
-    print('\n')
-
-# print('Start')
-# heuristicStaticReservation(board, listPiecesOutside)
+    
+    # print('\n')
+    # print(sequence)
+    # print('\n')
+    # print(board)
+    # print('\n')
