@@ -40,8 +40,8 @@ ev3.speaker.beep()
 # list of the positions given by the heuristics
 print(brain.passColorToPieceInOutsidePieces())
 # result = heuristic1.heuristicStaticReservation(brain.passColorToPieceInOutsidePieces())
-result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
-# result = heuristic3.resolveGameIAHeuristic3(brain.passColorToPieceInOutsidePieces())
+# result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
+result = heuristic3.resolveGameIAHeuristic3(brain.passColorToPieceInOutsidePieces())
 print(result)
 ev3.speaker.beep()
 
