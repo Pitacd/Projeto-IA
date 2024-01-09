@@ -32,14 +32,12 @@ robot.settings(150, 100, 150, 100)
 # Points
 points = 0
 
-# brain.readAllColorOfPieces(ev3, colorSensor)
+brain.readAllColorOfPieces(ev3, colorSensor)
 
-# list of the position given by the heuristic 2
-# print(brain.passColorToPieceInOutsidePieces())
-print(['-', 'X', '+', 'X', '+', '-', '-', '-', 'O', '-'])
-# result = heuristic1.heuristicStaticReservation(brain.board, brain.passColorToPieceInOutsidePieces())
+# list of the positions given by the heuristics
+print(brain.passColorToPieceInOutsidePieces())
+result = heuristic1.heuristicStaticReservation(brain.board, brain.passColorToPieceInOutsidePieces())
 # result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
-result = heuristic2.resolveGameIAHeuristic2(['-', 'X', '+', 'X', '+', '-', '-', '-', 'O', '-'])
 print(result)
 ev3.speaker.beep()
 
