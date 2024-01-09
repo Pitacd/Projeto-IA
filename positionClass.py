@@ -77,3 +77,6 @@ class Position:
             totalPoints: an integer
         """
         return self.points[piece] * 3 - sum(self.points.values()) 
+        
+    # def __str__(self):
+    #     return f'{self.position} : {self.piece} -> {self.points}'
