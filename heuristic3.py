@@ -14,7 +14,7 @@ class Node:
         if position != None:
             self.positionsPlaced.append(position)
         
-def resolveGameIAHeuristic1(listPiecesOutside):
+def resolveGameIAHeuristic3(listPiecesOutside):
     # create the frontier
     frontier = []
 
@@ -75,5 +75,5 @@ def heuristic(node : Node, piecesIndexes : list):
         return len(node.piecesOutside.listPiecesOutside)
 
 print('Start')
-result = resolveGameIAHeuristic1(['X', 'O', '+', '-', 'O', '-', '-', '+', '+', '+', '+', 'O', 'O', 'X', '+'])
+result = resolveGameIAHeuristic3(['X', 'O', '+', '-', 'O', '-', '-', '+', '+', '+', '+', 'O', 'O', 'X', '+'])
 print(result)
