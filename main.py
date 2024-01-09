@@ -3,6 +3,7 @@ from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, ColorSensor, UltrasonicSensor)
 from pybricks.parameters import Port, Direction
 from pybricks.robotics import DriveBase
+import heuristic1
 import heuristic2
 
 #Brain and Movement of the Robot for the Game
