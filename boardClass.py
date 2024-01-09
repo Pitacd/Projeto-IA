@@ -162,7 +162,7 @@ class Board:
         else:
             return self.board[self.positionOnBoard(position)].valuePositionForPiece(piece)
 
-    def numberOfPieceOnBoard(self,piece):
+    def numberOfPieceOnReservedPositionsOnBoard(self,piece):
         """
         The function counts the number of pieces of a specific type on set of positions
         reserved on the game board.
