@@ -51,7 +51,7 @@ class Board:
                 listEmptyPositions.append(position.position)
 
         return listEmptyPositions
-
+    
     def positionOnBoard(self, position):
         """
         The function calculates the position on a board based on the given position coordinates.
@@ -129,22 +129,22 @@ class Board:
             for position in pattern:
                     self.board[self.positionOnBoard(position)].points[piece] = points
 
-    def numberPositionReservedForPiece(self, piece):
+    def listPositionReservedForPiece(self, piece):
         """
-        The function checks if a given piece has a reservation on the board.
+        The function gives the list of position reserved on the board for a type of piece.
 
         Arguments:
             piece: a char
 
         Returns:
-            pieceHasReservation: a boolean
+            listPositionsReserved: a list of tuples
         """
-        nPositionsReserved = 0
+        listPositionsReserved = []
         for position in self.board:
                 if position.points[piece] > 0:
-                    nPositionsReserved +=1
+                    listPositionsReserved.append(position.position)
         
-        return nPositionsReserved
+        return listPositionsReserved
 
     def valuePositionForPieceOnBoard(self, piece, position):
         """
@@ -162,16 +162,17 @@ class Board:
         else:
             return self.board[self.positionOnBoard(position)].valuePositionForPiece(piece)
 
-    def numberOfPieceOnBoard(self,piece):
+    def numberOfPieceOnReservedPositionsOnBoard(self,piece):
         """
-        The function counts the number of pieces of a specific type on a game board.
+        The function counts the number of pieces of a specific type on set of positions
+        reserved on the game board.
         
         Returns:
             numberPieces: an integer
         """
         nPieces = 0
-        for position in self.board:
-            if position.piece == piece:
+        for position in self.listPositionReservedForPiece(piece):
+            if self.board[self.positionOnBoard(position)].piece == piece:
                 nPieces += 1
         return nPieces
 
@@ -223,7 +224,7 @@ class Board:
         """
 
         listPossibleBoards = []
-        if self.numberPositionReservedForPiece(piece) <= 0:
+        if len(self.listPositionReservedForPiece(piece)) <= 0:
             currentBoard = self.boardAsAnMatrix()
             listSetPossibleShape = listSetPositionForPieceForm(numberOfPieces, piece, position, currentBoard)
             if len(listSetPossibleShape) > 0:

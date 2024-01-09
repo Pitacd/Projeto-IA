@@ -4,7 +4,7 @@ from pybricks.ev3devices import (Motor, ColorSensor, UltrasonicSensor)
 from pybricks.parameters import Port, Direction
 from pybricks.robotics import DriveBase
 import heuristic1
-import heuristic2
+import heuristic3
 
 #Brain and Movement of the Robot for the Game
 import brain
@@ -27,12 +27,13 @@ ultrasoundSensor = UltrasonicSensor(Port.S2)
 
 # Robot
 robot = DriveBase(leftMotor, rightMotor, 56, 126)
+robot = DriveBase(leftMotor, rightMotor, 56, 126)
 robot.settings(150, 100, 150, 100)
 
 # Points
 points = 0
 
-brain.readAllColorOfPieces(ev3, colorSensor)
+# brain.readAllColorOfPieces(ev3, colorSensor)
 
 # list of the positions given by the heuristics
 print(brain.passColorToPieceInOutsidePieces())
@@ -40,7 +41,9 @@ result = heuristic1.heuristicStaticReservation(brain.board, brain.passColorToPie
 # result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
 print(result)
 ev3.speaker.beep()
+ev3.speaker.beep()
 
+# The loop is checking if either pieces
 # The loop is checking if either pieces
 # to put on the board or the board is full
 while len(result) > 0:
@@ -49,9 +52,22 @@ while len(result) > 0:
 
     # # reset the distance traveled
     # robot.reset()
+    # # obtain the piece
+    # brain.giveTheRobotThePiece(ev3, rotationMotor)
+
+    # # reset the distance traveled
+    # robot.reset()
 
     # choose the next position
+    # choose the next position
     (line, column) = result.pop(0)
+
+    # # go to the next board position
+    # goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
+
+    # # get the distance to come back
+    # distanceToComeBack = robot.distance() + 150
+
 
     # # go to the next board position
     # goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
@@ -67,9 +83,12 @@ while len(result) > 0:
     pieceSymbol = brain.mapColorToSymbol.get(pieceColor)
 
     # check for full shapes in the board, remove them and get the acquired points
+
+    # check for full shapes in the board, remove them and get the acquired points
     (board, pointsAcquired) = removeForms(brain.board, pieceSymbol, line, column)
     brain.board = board
 
+    # update score
     # update score
     points += pointsAcquired
 
@@ -78,7 +97,11 @@ while len(result) > 0:
 
     # # put the piece on the board
     # putPieceOnTheBoard(robot, rotationMotor)
+    # # put the piece on the board
+    # putPieceOnTheBoard(robot, rotationMotor)
 
+    # # return to the initial position
+    # goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
     # # return to the initial position
     # goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
 
@@ -87,6 +110,7 @@ piecesOutsideBoard = len(brain.listPiecesOutside)
 
 points -= 2**(piecesOnBoard + piecesOutsideBoard)
 
+print(points)
 print(points)
 
 ev3.speaker.beep()
