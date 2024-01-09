@@ -51,6 +51,7 @@ def resolveGameIAHeuristic2(listPiecesOutside):
             newPiecesOutside.pieceToPutOnBoard()
             frontier = sorted(frontier, key=lambda node: node.costValue + node.board.diffReservedPositLapReservedPosit(), reverse=True)
             frontier = frontier[0:25]
-            
-# result = resolveGameIAHeuristic2(['-', '-', 'X', 'X', 'O', 'X', 'O', 'O', 'O', 'X', '+', 'O', '+', '+', 'O', '-', 'O', 'O', '+', '+'])
+
+# print('Start')          
+# result = resolveGameIAHeuristic2(['-', '-', '-', 'X', 'X', 'O', '-', 'X', 'O', '-', 'X', 'X', 'X', 'X', 'X', '-', '-', 'O', 'O', '+', '-', 'O', 'O', '+', '-', 'X', 'X', 'O', '-', 'X'])
 # print(result)
