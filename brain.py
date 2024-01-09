@@ -23,10 +23,6 @@ board = [["_", "_", "_", "_", "_"],
          ["_", "_", "_", "_", "_"],
          ["_", "_", "_", "_", "_"]]
 
-# List of all the possible board 
-# positions to put the piece on 
-listPossiblePositions = [(i, j) for i in range(len(board)) for j in range(len(board[i]))]
-
 # function to read one color with the color sensor 
 # and displays it on the screen of the ev3. 
 # Stores the color read on a list
@@ -90,31 +86,6 @@ def giveTheRobotThePiece(ev3, rotationMotor):
         wait(1000)
     ev3.screen.clear()
 
-def choosePosition():
-    """
-    The function selects the next position of the board (with no pieces) 
-    to put the next piece 
-    
-    Returns:
-        position: (line, column)
-    """
-    
-    # positionIndex = randint(0, len(listPossiblePositions) - 1)
-    position = listPossiblePositions.pop(0)
-    return position
-
-def updateListOfPossiblePositions():
-    """
-    The function updates a list of possible positions on a board where the value is equal to '_'.
-    """
-    global listPossiblePositions
-    listPossiblePositions = []
-    
-    for i in range(len(board)):
-        for j in range(len(board[i])):
-            if(board[i][j] == '_'):
-                listPossiblePositions += [(i, j)]
-
 def showBoard():
     """
     The function prints the current state of the board in a formatted way.
@@ -126,3 +97,31 @@ def showBoard():
         print(strLine)
         
     print("----------------------")
+    
+def passColorToPieceInOutsidePieces():
+    """
+    The function takes a list of pieces outside and maps their colors to symbols, returning a list of
+    symbols.
+    
+    Returns:
+        listPiecesOutsideChr: a list of chr
+    """
+    listPiecesOutsideChr = []
+    
+    for piece in listPiecesOutside:
+        listPiecesOutsideChr.append(mapColorToSymbol[piece])
+    
+    return listPiecesOutsideChr
+
+def numberOfEmptyPositions():
+    """
+    The function counts the number of empty positions in a given board.
+    
+    Returns:
+        numberOfEmptyPositions: an integer
+    """
+    nEmptyPositions = 0
+    for line in board:
+        nEmptyPositions += line.count('_')
+    
+    return nEmptyPositions

@@ -1,10 +1,11 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, ColorSensor, UltrasonicSensor)
-from pybricks.parameters import Port, Stop, Direction, Color, Button
-from pybricks.tools import wait, StopWatch, DataLog
+from pybricks.parameters import Port, Direction
 from pybricks.robotics import DriveBase
-from pybricks.media.ev3dev import SoundFile, ImageFile
+import heuristic1
+import heuristic2
+import heuristic3
 
 #Brain and Movement of the Robot for the Game
 import brain
@@ -26,67 +27,92 @@ colorSensor = ColorSensor(Port.S1)
 ultrasoundSensor = UltrasonicSensor(Port.S2)
 
 # Robot
-robot = DriveBase(leftMotor, rightMotor, 56, 126) 
+robot = DriveBase(leftMotor, rightMotor, 56, 126)
+robot = DriveBase(leftMotor, rightMotor, 56, 126)
 robot.settings(150, 100, 150, 100)
 
 # Points
 points = 0
 
-# Functions
 brain.readAllColorOfPieces(ev3, colorSensor)
-print(brain.listPiecesOutside) # testing to know that it is working
+ev3.speaker.beep()
 
-# The loop is checking if either pieces 
+# list of the positions given by the heuristics
+print(brain.passColorToPieceInOutsidePieces())
+# result = heuristic1.heuristicStaticReservation(brain.passColorToPieceInOutsidePieces())
+# result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
+result = heuristic3.resolveGameIAHeuristic3(brain.passColorToPieceInOutsidePieces())
+print(result)
+ev3.speaker.beep()
+
+# The loop is checking if either pieces
+# The loop is checking if either pieces
 # to put on the board or the board is full
-while len(brain.listPiecesOutside) > 0 and len(brain.listPossiblePositions) > 0:
-    # obtain the piece
-    brain.giveTheRobotThePiece(ev3, rotationMotor)
-    
-    # reset the distance traveled
-    robot.reset() 
+while len(result) > 0:
+    # # obtain the piece
+    # brain.giveTheRobotThePiece(ev3, rotationMotor)
 
-    # choose the next position 
-    (line, column) = brain.choosePosition()
-    
-    # go to the next board position
-    goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
-    
-    # get the distance to come back
-    distanceToComeBack = robot.distance() + 150    
-    
+    # # reset the distance traveled
+    # robot.reset()
+    # # obtain the piece
+    # brain.giveTheRobotThePiece(ev3, rotationMotor)
+
+    # # reset the distance traveled
+    # robot.reset()
+
+    # choose the next position
+    # choose the next position
+    (line, column) = result.pop(0)
+
+    # # go to the next board position
+    # goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
+
+    # # get the distance to come back
+    # distanceToComeBack = robot.distance() + 150
+
+
+    # # go to the next board position
+    # goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
+
+    # # get the distance to come back
+    # distanceToComeBack = robot.distance() + 150
+
     # update board state on the robot's brain
     # by adding to the board the first
     # piece from listPiecesOutside
     # removing it from there
     pieceColor = brain.listPiecesOutside.pop(0)
     pieceSymbol = brain.mapColorToSymbol.get(pieceColor)
-    
-    # check for full shapes in the board, remove them and get the acquired points 
+
+    # check for full shapes in the board, remove them and get the acquired points
+
+    # check for full shapes in the board, remove them and get the acquired points
     (board, pointsAcquired) = removeForms(brain.board, pieceSymbol, line, column)
     brain.board = board
 
-    # if points were made, shapes were removed  
-    # in that case, update the possible positions on the board
-    if (pointsAcquired > 0):
-        brain.updateListOfPossiblePositions()
-
-    # update score 
+    # update score
+    # update score
     points += pointsAcquired
 
     # print the board on the console
     brain.showBoard()
 
-    # put the piece on the board
-    putPieceOnTheBoard(robot, rotationMotor)
+    # # put the piece on the board
+    # putPieceOnTheBoard(robot, rotationMotor)
+    # # put the piece on the board
+    # putPieceOnTheBoard(robot, rotationMotor)
 
-    # return to the initial position
-    goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
+    # # return to the initial position
+    # goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
+    # # return to the initial position
+    # goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
 
-piecesOnBoard = 25 - len(brain.listPossiblePositions)
+piecesOnBoard = 25 - brain.numberOfEmptyPositions()
 piecesOutsideBoard = len(brain.listPiecesOutside)
 
 points -= 2**(piecesOnBoard + piecesOutsideBoard)
 
-print(points) 
+print(points)
+print(points)
 
 ev3.speaker.beep()
