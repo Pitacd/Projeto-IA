@@ -13,7 +13,10 @@ class Node:
         self.piecePlaced = piece
         if position != None:
             self.positionsPlaced.append(position)
-        
+
+# Use Greedy Algorithm 
+# h(x) =    number of pieces till make form /
+#           number of pieces to remove, on the list pieces outside, till the last piece to make the form
 def resolveGameIAHeuristic3(listPiecesOutside):
     # create the frontier
     frontier = []
@@ -60,6 +63,7 @@ def resolveGameIAHeuristic3(listPiecesOutside):
             
             # sort the frontier through the heuristic function 
             frontier = sorted(frontier, key=lambda node: heuristic(node, piecesIndexes) + node.valuePiecePlaceOnBoard)
+            # update frontier only to contain the best 25 nodes
             frontier = frontier[0:25]
 
 def heuristic(node : Node, piecesIndexes : list):
