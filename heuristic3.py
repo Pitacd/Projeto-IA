@@ -28,7 +28,7 @@ def resolveGameIAHeuristic3(listPiecesOutside):
     # create the first node
     rootNode = Node(startBoard, startPiecesOutside)
     frontier.append(rootNode)
-    i=0
+
     while frontier != []:
         
         # remove the best node from the frontier
@@ -36,7 +36,6 @@ def resolveGameIAHeuristic3(listPiecesOutside):
         possiblePositions = currentNode.board.emptyPositions()
         
         if len(possiblePositions) <= 0 or len(currentNode.piecesOutside.listPiecesOutside) <= 0:
-            print(i)
             print(currentNode.board.boardAsAnMatrix())
             return currentNode.positionsPlaced
         else:
@@ -66,7 +65,6 @@ def resolveGameIAHeuristic3(listPiecesOutside):
             frontier = sorted(frontier, key=lambda node: heuristic(node, piecesIndexes) + node.valuePiecePlaceOnBoard)
             # update frontier only to contain the best 25 nodes
             frontier = frontier[0:25]
-            i+=1
 
 def heuristic(node : Node, piecesIndexes : list):
     pieceSymbol = node.piecePlaced
