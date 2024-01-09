@@ -89,6 +89,6 @@ def heuristic(node : Node, piecesIndexes : list):
     else:
         return len(node.piecesOutside.listPiecesOutside)
 
-print('Start')
-result = resolveGameIAHeuristic3(['X', '+', '+', '+', 'X', '+', '-', '+', '-', 'X'])
-print(result)
+# print('Start')
+# result = resolveGameIAHeuristic3(['X', '+', '+', '+', 'X', '+', '-', '+', '-', 'X'])
+# print(result)
