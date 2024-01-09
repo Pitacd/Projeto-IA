@@ -15,7 +15,7 @@ class Node:
             self.positionsPlaced.append(position)
 
 # Use Greedy Algorithm 
-# h(x) = number of pieces to remove, on the list pieces outside, 
+# h(x) = number of pieces to remove, on the list pieces outside,   +  value of piece placed on the board
 #        till the last piece to make the form
 def resolveGameIAHeuristic3(listPiecesOutside):
     # create the frontier
@@ -95,6 +95,6 @@ def heuristic(node : Node, piecesIndexes : list):
     else:
         return len(node.piecesOutside.listPiecesOutside)
 
-print('Start')
-result = resolveGameIAHeuristic3(['+', 'O', '+', 'O', 'O', 'O', '+', '-', '+', '+', '+', 'O', 'X', '-', 'X'])
-print(result)
+# print('Start')
+# result = resolveGameIAHeuristic3(['O', 'O', 'O', 'O', '-', 'X', '+', 'O', '+', '+', 'X', '-', 'X', 'O', 'X', '-', '-', '+', '-', '+'])
+# print(result)
