@@ -32,7 +32,7 @@ def resolveGameIAHeuristic2(listPiecesOutside, searchMethod=lambda node: node.co
         possiblePositions = currentNode.board.emptyPositions()
         
         if len(possiblePositions) <= 0 or len(currentNode.piecesOutside.listPiecesOutside) <= 0:
-            print(currentNode.board)
+            print(currentNode.board.boardAsAnMatrix())
             return currentNode.positionsPlaced
         else:
             newPiecesOutside = deepcopy(currentNode.piecesOutside)
@@ -74,6 +74,6 @@ def heuristic(node : Node):
     else:
         return 999
 
-result = resolveGameIAHeuristic2(['+', 'O', '-', 'O', 'X', '-', '-', 'O', '-', '-', '+', '+', 'O', '-', '-', 'X', 'X', 'O', 'O', '-', 'X', 'X', '-', 'X', 'O'], lambda node: heuristic(node) + node.costValue, reverse=False)
+result = resolveGameIAHeuristic2(['+', 'O', '+', '+', '+', 'O', 'O', 'X', 'X', '-', '-', '+', 'O', 'X', 'X', '-', 'O', '-', 'O', '-', 'X', '+', 'O', '-', '+'], lambda node: heuristic(node) + node.costValue, reverse=False)
 
 print(result)
