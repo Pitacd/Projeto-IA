@@ -15,8 +15,8 @@ class Node:
             self.positionsPlaced.append(position)
 
 # Use Greedy Algorithm 
-# h(x) =    number of pieces till make form /
-#           number of pieces to remove, on the list pieces outside, till the last piece to make the form
+# h(x) = number of pieces to remove, on the list pieces outside, 
+#        till the last piece to make the form
 def resolveGameIAHeuristic3(listPiecesOutside):
     # create the frontier
     frontier = []
@@ -28,7 +28,7 @@ def resolveGameIAHeuristic3(listPiecesOutside):
     # create the first node
     rootNode = Node(startBoard, startPiecesOutside)
     frontier.append(rootNode)
-    
+    i=0
     while frontier != []:
         
         # remove the best node from the frontier
@@ -36,6 +36,7 @@ def resolveGameIAHeuristic3(listPiecesOutside):
         possiblePositions = currentNode.board.emptyPositions()
         
         if len(possiblePositions) <= 0 or len(currentNode.piecesOutside.listPiecesOutside) <= 0:
+            print(i)
             print(currentNode.board.boardAsAnMatrix())
             return currentNode.positionsPlaced
         else:
@@ -65,6 +66,7 @@ def resolveGameIAHeuristic3(listPiecesOutside):
             frontier = sorted(frontier, key=lambda node: heuristic(node, piecesIndexes) + node.valuePiecePlaceOnBoard)
             # update frontier only to contain the best 25 nodes
             frontier = frontier[0:25]
+            i+=1
 
 def heuristic(node : Node, piecesIndexes : list):
     pieceSymbol = node.piecePlaced
@@ -83,9 +85,9 @@ def heuristic(node : Node, piecesIndexes : list):
             # if it is out the index thats strange
             if index < len(piecesIndexes) and index >= 0:
                 movesBetweenFirstAndLastPieces = piecesIndexes[index]
-                # return the number of pieces till make form / number of pieces 
-                # to remove, on the list pieces outside, till the last piece to make the form
-                return index/movesBetweenFirstAndLastPieces 
+                # number of pieces to remove, on the list pieces outside, 
+                # till the last piece to make the form
+                return movesBetweenFirstAndLastPieces 
             else:
                 return len(node.piecesOutside.listPiecesOutside)
         else:
@@ -93,6 +95,6 @@ def heuristic(node : Node, piecesIndexes : list):
     else:
         return len(node.piecesOutside.listPiecesOutside)
 
-# print('Start')
-# result = resolveGameIAHeuristic3(['X', '+', '+', '+', 'X', '+', '-', '+', '-', 'X'])
-# print(result)
+print('Start')
+result = resolveGameIAHeuristic3(['+', 'O', '+', 'O', 'O', 'O', '+', '-', '+', '+', '+', 'O', 'X', '-', 'X'])
+print(result)
