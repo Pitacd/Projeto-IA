@@ -14,7 +14,7 @@ class Node:
         if position != None:
             self.positionsPlaced.append(position)
         
-def resolveGameIAHeuristic2(listPiecesOutside, searchMethod=lambda node: node.costValue + node.heuristicValue,reverse=True):
+def resolveGameIAHeuristic1(listPiecesOutside):
     # create the frontier
     frontier = []
 
@@ -38,6 +38,10 @@ def resolveGameIAHeuristic2(listPiecesOutside, searchMethod=lambda node: node.co
             newPiecesOutside = deepcopy(currentNode.piecesOutside)
             piece = newPiecesOutside.getPieceToPutOnBoard()
             
+            pieceOutsideWithout1st = newPiecesOutside.listPiecesOutside.copy()[1:]
+            piecesIndexes = [i + 1 for i in range(len(pieceOutsideWithout1st)) if pieceOutsideWithout1st[i] == piece]
+            pieceOutsideWithout1st.clear()
+            
             for position in possiblePositions:
                 listNewBoards = currentNode.board.allPossibleBoardPiecePlace(newPiecesOutside.numberEachPiece[piece],piece,position)
                 for board in listNewBoards:
@@ -50,17 +54,15 @@ def resolveGameIAHeuristic2(listPiecesOutside, searchMethod=lambda node: node.co
                             frontier[-1].board.removePieceFormBoard(frontier[-1].piecePlaced, boardPiecesRemoved)
             
             newPiecesOutside.pieceToPutOnBoard()
-            frontier = sorted(frontier, key=searchMethod, reverse=reverse)
+            frontier = sorted(frontier, key=lambda node: heuristic(node, piecesIndexes) + node.costValue)
             frontier = frontier[0:25]
 
-def heuristic(node : Node):
+def heuristic(node : Node, piecesIndexes : list):
     pieceSymbol = node.piecePlaced
     piecesToCompleteTheShape = len(node.board.listPositionReservedForPiece(pieceSymbol))
     numberOfPiecesOnBoard = node.board.numberOfPieceOnBoard(pieceSymbol)
     
     if piecesToCompleteTheShape > 0:
-        
-        piecesIndexes = [i + 1 for i in range(len(node.piecesOutside.listPiecesOutside)) if node.piecesOutside.listPiecesOutside[i] == pieceSymbol]
         
         if len(piecesIndexes) + numberOfPiecesOnBoard >= piecesToCompleteTheShape:
             index = piecesToCompleteTheShape - numberOfPiecesOnBoard - 1
@@ -74,6 +76,7 @@ def heuristic(node : Node):
     else:
         return 999
 
-result = resolveGameIAHeuristic2(['+', 'O', '+', '+', '+', 'O', 'O', 'X', 'X', '-', '-', '+', 'O', 'X', 'X', '-', 'O', '-', 'O', '-', 'X', '+', 'O', '-', '+'], lambda node: heuristic(node) + node.costValue, reverse=False)
+print(['+', '-', '-', '-', 'O', 'X', '+', 'O', '-', 'X'])
+result = resolveGameIAHeuristic1(['+', '-', '-', '-', 'O', 'X', '+', 'O', '-', 'X'])
 
 print(result)
