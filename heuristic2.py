@@ -28,7 +28,6 @@ def resolveGameIAHeuristic2(listPiecesOutside):
     # create the first node
     rootNode = Node(startBoard, startPiecesOutside)
     frontier.append(rootNode)
-    i = 0
     
     while frontier != []:
         
@@ -37,7 +36,6 @@ def resolveGameIAHeuristic2(listPiecesOutside):
         possiblePositions = currentNode.board.emptyPositions()
         
         if len(possiblePositions) <= 0 or len(currentNode.piecesOutside.listPiecesOutside) <= 0:
-            print(i)
             print(currentNode.board.boardAsAnMatrix())
             return currentNode.positionsPlaced
         else:
@@ -63,8 +61,7 @@ def resolveGameIAHeuristic2(listPiecesOutside):
             frontier = sorted(frontier, key=lambda node: node.costValue + node.board.diffReservedPositLapReservedPosit(), reverse=True)
             # update frontier only to contain the best 25 nodes
             frontier = frontier[0:25]
-            i+=1
 
 # print('Start')          
-# result = resolveGameIAHeuristic2(['X', 'X', 'X', 'O', 'O', 'O', 'O', 'X', 'X', '-', '-', 'O', 'O', '-', 'X', 'X', 'X', 'X', '-', '-', '+', 'O', 'O', 'O', 'O'])
+# result = resolveGameIAHeuristic2(['O', 'O', '+', '+', '+', '-', '-', '+', '+', 'O', 'O', '-', 'O', '-', '-'])
 # print(result)
