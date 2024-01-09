@@ -51,7 +51,7 @@ class Board:
                 listEmptyPositions.append(position.position)
 
         return listEmptyPositions
-
+    
     def positionOnBoard(self, position):
         """
         The function calculates the position on a board based on the given position coordinates.
@@ -137,7 +137,7 @@ class Board:
             piece: a char
 
         Returns:
-            pieceHasReservation: a list of tuples
+            listPositionsReserved: a list of tuples
         """
         listPositionsReserved = []
         for position in self.board:
@@ -172,7 +172,7 @@ class Board:
         """
         nPieces = 0
         for position in self.listPositionReservedForPiece(piece):
-            if self.board[self.positionOnBoard(position)].isEmpty():
+            if self.board[self.positionOnBoard(position)].piece == piece:
                 nPieces += 1
         return nPieces
 
