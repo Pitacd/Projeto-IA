@@ -3,7 +3,7 @@ from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, ColorSensor, UltrasonicSensor)
 from pybricks.parameters import Port, Direction
 from pybricks.robotics import DriveBase
-import heuristic2
+import heuristic1
 
 #Brain and Movement of the Robot for the Game
 import brain
@@ -35,7 +35,7 @@ brain.readAllColorOfPieces(ev3, colorSensor)
 
 # list of the position given by the heuristic 2
 print(brain.passColorToPieceInOutsidePieces())
-result = heuristic2.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
+result = heuristic1.resolveGameIAHeuristic2(brain.passColorToPieceInOutsidePieces())
 print(result)
 
 # The loop is checking if either pieces 
