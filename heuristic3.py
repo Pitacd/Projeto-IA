@@ -7,7 +7,7 @@ class Node:
     def __init__(self, board, piecesOutside, piece = '_', position = None, listPositions = []):
         self.board = board
         self.piecesOutside = piecesOutside
-        self.valuePiecePlaceOnBoard = 1/(2**self.board.valuePositionForPieceOnBoard(piece, position))
+        self.valuePiecePlaceOnBoard = 1/(2**(self.board.valuePositionForPieceOnBoard(piece, position)))
         self.heuristicValue = board.diffReservedPositLapReservedPosit() 
         self.positionsPlaced = listPositions
         self.piecePlaced = piece
@@ -15,8 +15,8 @@ class Node:
             self.positionsPlaced.append(position)
 
 # Use Greedy Algorithm 
-# h(x) = number of pieces to remove, on the list pieces outside,   +  value of piece placed on the board
-#        till the last piece to make the form
+# h(x) =    number of pieces outside the board minus the number of pieces to remove,   +  1/2**value of piece placed on the board
+#           on the list pieces outside, till the last piece to make the form
 def resolveGameIAHeuristic3(listPiecesOutside):
     # create the frontier
     frontier = []
@@ -83,9 +83,9 @@ def heuristic(node : Node, piecesIndexes : list):
             # if it is out the index thats strange
             if index < len(piecesIndexes) and index >= 0:
                 movesBetweenFirstAndLastPieces = piecesIndexes[index]
-                # number of pieces to remove, on the list pieces outside, 
-                # till the last piece to make the form
-                return movesBetweenFirstAndLastPieces 
+                # number of pieces outside the board minus the number of pieces to remove,
+                # on the list pieces outside, till the last piece to make the form
+                return (len(node.piecesOutside.listPiecesOutside) - movesBetweenFirstAndLastPieces)
             else:
                 return len(node.piecesOutside.listPiecesOutside)
         else:
@@ -94,5 +94,5 @@ def heuristic(node : Node, piecesIndexes : list):
         return len(node.piecesOutside.listPiecesOutside)
 
 # print('Start')
-# result = resolveGameIAHeuristic3(['O', 'O', 'O', 'O', '-', 'X', '+', 'O', '+', '+', 'X', '-', 'X', 'O', 'X', '-', '-', '+', '-', '+'])
+# result = resolveGameIAHeuristic3(['X', '-', '-', 'O', '+', 'O', 'X', '-', '+', 'O', '+', 'X', '-', 'O', 'O'])
 # print(result)
