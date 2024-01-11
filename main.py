@@ -49,33 +49,21 @@ ev3.speaker.beep()
 # The loop is checking if either pieces
 # to put on the board or the board is full
 while len(result) > 0:
-    # # obtain the piece
-    # brain.giveTheRobotThePiece(ev3, rotationMotor)
-
-    # # reset the distance traveled
-    # robot.reset()
-    # # obtain the piece
-    # brain.giveTheRobotThePiece(ev3, rotationMotor)
-
-    # # reset the distance traveled
-    # robot.reset()
-
-    # choose the next position
+    
+    # reset the distance traveled
+    robot.reset()
+    
+    # obtain the piece
+    brain.giveTheRobotThePiece(ev3, rotationMotor)
+    
     # choose the next position
     (line, column) = result.pop(0)
 
-    # # go to the next board position
-    # goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
+    # go to the next board position
+    goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
 
-    # # get the distance to come back
-    # distanceToComeBack = robot.distance() + 150
-
-
-    # # go to the next board position
-    # goToPositionOnBoard(line, column, robot, ev3, rotationMotor, colorSensor)
-
-    # # get the distance to come back
-    # distanceToComeBack = robot.distance() + 150
+    # get the distance to come back
+    distanceToComeBack = robot.distance() + 150
 
     # update board state on the robot's brain
     # by adding to the board the first
@@ -85,34 +73,26 @@ while len(result) > 0:
     pieceSymbol = brain.mapColorToSymbol.get(pieceColor)
 
     # check for full shapes in the board, remove them and get the acquired points
-
-    # check for full shapes in the board, remove them and get the acquired points
     (board, pointsAcquired) = removeForms(brain.board, pieceSymbol, line, column)
     brain.board = board
 
-    # update score
     # update score
     points += pointsAcquired
 
     # print the board on the console
     brain.showBoard()
 
-    # # put the piece on the board
-    # putPieceOnTheBoard(robot, rotationMotor)
-    # # put the piece on the board
-    # putPieceOnTheBoard(robot, rotationMotor)
+    # put the piece on the board
+    putPieceOnTheBoard(robot, rotationMotor)
 
-    # # return to the initial position
-    # goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
-    # # return to the initial position
-    # goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
+    # return to the initial position
+    goBackToInitialPosition(distanceToComeBack, robot, ultrasoundSensor)
 
 piecesOnBoard = 25 - brain.numberOfEmptyPositions()
 piecesOutsideBoard = len(brain.listPiecesOutside)
 
 points -= 2**(piecesOnBoard + piecesOutsideBoard)
 
-print(points)
 print(points)
 
 ev3.speaker.beep()
